@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AutomatiseringLiefLeed.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomatiseringLiefLeed.Data
@@ -9,5 +10,10 @@ namespace AutomatiseringLiefLeed.Data
             : base(options)
         {
         }
+
+        public DbSet<ApplicationModel> ApplicationModelSet { get; set; }
+        public DbSet<DepartmentModel> DepartmentModelSet { get; set; }
+        public DbSet<ReasonModel> ReasonModelSet { get; set; }
+        public DbSet<ApplicationUserModel> UserModelSet { get; set; }
     }
 }
