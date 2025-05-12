@@ -53,7 +53,7 @@ namespace AutomatiseringLiefLeed.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationModelSet");
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.DepartmentModel", b =>
@@ -70,7 +70,7 @@ namespace AutomatiseringLiefLeed.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DepartmentModelSet");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.ReasonModel", b =>
@@ -87,7 +87,7 @@ namespace AutomatiseringLiefLeed.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ReasonModelSet");
+                    b.ToTable("Reasons");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

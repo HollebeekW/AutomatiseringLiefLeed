@@ -56,7 +56,7 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                 nullable: true);
 
             migrationBuilder.CreateTable(
-                name: "ApplicationModelSet",
+                name: "Applications",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -71,11 +71,11 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ApplicationModelSet", x => x.Id);
+                    table.PrimaryKey("PK_Applications", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartmentModelSet",
+                name: "Departments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -84,11 +84,11 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartmentModelSet", x => x.Id);
+                    table.PrimaryKey("PK_Departments", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReasonModelSet",
+                name: "Reasons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -97,7 +97,7 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReasonModelSet", x => x.Id);
+                    table.PrimaryKey("PK_Reasons", x => x.Id);
                 });
         }
 
@@ -105,13 +105,13 @@ namespace AutomatiseringLiefLeed.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ApplicationModelSet");
+                name: "Applications");
 
             migrationBuilder.DropTable(
-                name: "DepartmentModelSet");
+                name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "ReasonModelSet");
+                name: "Reasons");
 
             migrationBuilder.DropColumn(
                 name: "DateOfBirth",
