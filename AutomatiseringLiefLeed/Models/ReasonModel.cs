@@ -12,5 +12,8 @@ namespace AutomatiseringLiefLeed.Models
 
         [Required]
         public double MoneyAmount { get; set; }
+
+        [Required]
+        public bool IsAnniversary { get; set; } //to make automatic date checks easier
     }
 }
