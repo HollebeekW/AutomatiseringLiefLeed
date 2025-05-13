@@ -53,7 +53,7 @@ namespace AutomatiseringLiefLeed.Migrations
 
                     b.HasIndex("ReasonId");
 
-                    b.ToTable("Applications");
+                    b.ToTable("Applications", (string)null);
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.ReasonModel", b =>
@@ -76,7 +76,7 @@ namespace AutomatiseringLiefLeed.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Reasons");
+                    b.ToTable("Reasons", (string)null);
 
                     b.HasData(
                         new
