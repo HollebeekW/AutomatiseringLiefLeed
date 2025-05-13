@@ -21,6 +21,12 @@ namespace AutomatiseringLiefLeed.Models
         public string RecipientName { get; set;}
 
         [Required]
+        public DateOnly DateOfApplication { get; set; }
+
+        [Required]
+        public DateOnly DateOfissue { get; set; }
+
+        [Required]
         public virtual Reason Reason { get; set; }
     }
 }
