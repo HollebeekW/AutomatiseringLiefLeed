@@ -2,7 +2,7 @@
 
 namespace AutomatiseringLiefLeed.Models
 {
-    public class ReasonModel
+    public class Reason
     {
         [Required]
         public int Id { get; set; }
@@ -15,5 +15,8 @@ namespace AutomatiseringLiefLeed.Models
 
         [Required]
         public bool IsAnniversary { get; set; } //to make automatic date checks easier
+
+        [Required]
+        public virtual ICollection<Application> Applications { get; set; }
     }
 }

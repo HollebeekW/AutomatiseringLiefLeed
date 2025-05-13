@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutomatiseringLiefLeed.Models
 {
-    public class ApplicationModel
+    public class Application
     {
         [Required]
         public int Id { get; set; }
@@ -21,6 +21,6 @@ namespace AutomatiseringLiefLeed.Models
         public string RecipientName { get; set;}
 
         [Required]
-        public virtual ReasonModel Reason { get; set; }
+        public virtual Reason Reason { get; set; }
     }
 }
