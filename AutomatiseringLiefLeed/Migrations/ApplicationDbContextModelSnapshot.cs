@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AutomatiseringLiefLeed.Data.Migrations
+namespace AutomatiseringLiefLeed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -30,47 +30,30 @@ namespace AutomatiseringLiefLeed.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("DateOfApplication")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("DateOfIssue")
-                        .HasColumnType("date");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsApproved")
-                        .HasColumnType("bit");
-
                     b.Property<int>("ReasonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("int");
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
+                    b.Property<string>("RecipientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Applications");
-                });
-
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.DepartmentModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
+                    b.Property<string>("SenderName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.HasIndex("ReasonId");
+
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.ReasonModel", b =>
@@ -80,6 +63,9 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("MoneyAmount")
+                        .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -154,11 +140,6 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -210,10 +191,6 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -301,29 +278,15 @@ namespace AutomatiseringLiefLeed.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.ApplicationUserModel", b =>
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.ApplicationModel", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+                    b.HasOne("AutomatiseringLiefLeed.Models.ReasonModel", "Reason")
+                        .WithMany()
+                        .HasForeignKey("ReasonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("DateOfEmployment")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("DateOfMarriage")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("DateOfSickness")
-                        .HasColumnType("date");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsSick")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("ApplicationUserModel");
+                    b.Navigation("Reason");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

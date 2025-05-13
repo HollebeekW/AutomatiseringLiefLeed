@@ -12,8 +12,6 @@ namespace AutomatiseringLiefLeed.Data
         }
 
         public DbSet<ApplicationModel> Applications { get; set; }
-        public DbSet<DepartmentModel> Departments { get; set; }
         public DbSet<ReasonModel> Reasons { get; set; }
-        public DbSet<ApplicationUserModel> Users { get; set; }
     }
 }

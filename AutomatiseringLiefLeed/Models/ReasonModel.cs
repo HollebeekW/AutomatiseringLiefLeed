@@ -9,5 +9,8 @@ namespace AutomatiseringLiefLeed.Models
 
         [Required]
         public string Name { get; set; }
+
+        [Required]
+        public double MoneyAmount { get; set; }
     }
 }
