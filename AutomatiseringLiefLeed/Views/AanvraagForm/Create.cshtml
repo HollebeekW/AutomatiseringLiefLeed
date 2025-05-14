@@ -1,0 +1,30 @@
+﻿@model AutomatiseringLiefLeed.Models.Application
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label for="SenderId">Naam medewerker</label>
+        <select asp-for="SenderId" class="form-control" asp-items="ViewBag.Employees"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="RecipientId">Ontvanger</label>
+        <select asp-for="RecipientId" class="form-control" asp-items="ViewBag.Employees"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="DepartmentId">Afdeling</label>
+        <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.Departments"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="ReasonId">Reden aanvraag</label>
+        <select asp-for="ReasonId" class="form-control" asp-items="ViewBag.Reasons"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="DateOfIssue">Datum gebeurtenis</label>
+        <input asp-for="DateOfIssue" type="date" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-success mt-3">Aanvraag versturen</button>
+</form>

@@ -1,4 +1,5 @@
 using AutomatiseringLiefLeed.Data;
+using AutomatiseringLiefLeed.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ namespace AutomatiseringLiefLeed
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+            // AFAS Service Configuration
+            builder.Services.AddHttpClient<AFASService>();
+            builder.Services.AddScoped<AFASService>();
 
             var app = builder.Build();
 

@@ -14,6 +14,8 @@ namespace AutomatiseringLiefLeed.Models
         [Required]
         public string SenderName { get; set;}
 
+        public int DepartmentId { get; set; }
+
         [Required]
         public string RecipientId { get; set; }
 
@@ -21,12 +23,17 @@ namespace AutomatiseringLiefLeed.Models
         public string RecipientName { get; set;}
 
         [Required]
-        public DateOnly DateOfApplication { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateOfApplication { get; set; } = DateTime.Now;
 
         [Required]
-        public DateOnly DateOfissue { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime DateOfIssue { get; set; }
 
         [Required]
+        public int ReasonId { get; set; }
+
+        [ForeignKey("ReasonId")]
         public virtual Reason Reason { get; set; }
     }
 }
