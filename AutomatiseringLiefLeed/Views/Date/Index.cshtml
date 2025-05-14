@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Date>
+
+    @if (TempData["DaysDifference"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["DaysDifference"]
+    </div>
+}
+
+@if (TempData["IsAnniversary"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["IsAnniversary"]
+    </div>
+}
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<p>
+        <a asp-action="Create">Nieuwe Datum</a> 
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SecondDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SecondDate)
+                </td>
+                <td>
+                    <a asp-action="CheckDateDifference" asp-route-id="@item.Id">Bereken Verschil</a>
+                </td>
+            </tr>
+        }
+    </tbody>

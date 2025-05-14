@@ -14,6 +14,9 @@ namespace AutomatiseringLiefLeed.Data
         public DbSet<Application> Applications { get; set; }
         public DbSet<Reason> Reasons { get; set; }
 
+        //for testing purposes, to be removed later
+        public DbSet<Date> Dates { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

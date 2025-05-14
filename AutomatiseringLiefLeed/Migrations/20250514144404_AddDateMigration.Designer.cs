@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomatiseringLiefLeed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250513133304_AddDatesToApplicationMigration")]
-    partial class AddDatesToApplicationMigration
+    [Migration("20250514144404_AddDateMigration")]
+    partial class AddDateMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,25 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.HasIndex("ReasonId");
 
                     b.ToTable("Applications");
+                });
+
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Date", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("FirstDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("SecondDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dates");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>

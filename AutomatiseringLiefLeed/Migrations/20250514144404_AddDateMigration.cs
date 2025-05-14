@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AutomatiseringLiefLeed.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDatesToApplicationMigration : Migration
+    public partial class AddDateMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,11 +24,28 @@ namespace AutomatiseringLiefLeed.Migrations
                 type: "date",
                 nullable: false,
                 defaultValue: new DateOnly(1, 1, 1));
+
+            migrationBuilder.CreateTable(
+                name: "Dates",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    SecondDate = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dates", x => x.Id);
+                });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Dates");
+
             migrationBuilder.DropColumn(
                 name: "DateOfApplication",
                 table: "Applications");

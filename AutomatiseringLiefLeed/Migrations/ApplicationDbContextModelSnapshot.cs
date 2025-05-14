@@ -62,6 +62,25 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.ToTable("Applications");
                 });
 
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Date", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("FirstDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly>("SecondDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dates");
+                });
+
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>
                 {
                     b.Property<int>("Id")
