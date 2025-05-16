@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Aanvraag ingediend";
+}
+
+<div class="container mt-5 text-center">
+    <h2>Bedankt voor uw aanvraag!</h2>
+    <p>
+        Aanvraagnummer: <strong>#LLP-2023-123</strong><br />
+        Type aanvraag: <strong>Jubileum / Ziekte / Huwelijk / etc.</strong><br />
+        Ingediend op: <strong>@DateTime.Now.ToString("dd-MM-yyyy HH:mm")</strong>
+    </p>
+
+    <a href="/RequestForm/Status" class="btn btn-info">Bekijk aanvraagstatus</a>
+    <a href="/" class="btn btn-secondary ml-2">Terug naar Homepagina</a>
+</div>
