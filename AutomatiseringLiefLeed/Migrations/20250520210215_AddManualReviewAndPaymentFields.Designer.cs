@@ -4,6 +4,7 @@ using AutomatiseringLiefLeed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomatiseringLiefLeed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520210215_AddManualReviewAndPaymentFields")]
+    partial class AddManualReviewAndPaymentFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,35 +157,6 @@ namespace AutomatiseringLiefLeed.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Notes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AuthorName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RequestId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RequestId");
-
-                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>
@@ -349,7 +323,6 @@ namespace AutomatiseringLiefLeed.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Note")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PaymentApproved")
@@ -358,9 +331,8 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -376,7 +348,7 @@ namespace AutomatiseringLiefLeed.Migrations
                             Note = "Voorbeeldaanvraag",
                             PaymentApproved = true,
                             RequestDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Pending"
+                            Status = 0
                         },
                         new
                         {
@@ -387,7 +359,7 @@ namespace AutomatiseringLiefLeed.Migrations
                             Note = "Spoed",
                             PaymentApproved = false,
                             RequestDate = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = "Pending"
+                            Status = 0
                         });
                 });
 
@@ -539,17 +511,6 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Navigation("Reason");
                 });
 
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Notes", b =>
-                {
-                    b.HasOne("AutomatiseringLiefLeed.Models.Request", "Request")
-                        .WithMany("Notes")
-                        .HasForeignKey("RequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Request");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -604,11 +565,6 @@ namespace AutomatiseringLiefLeed.Migrations
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>
                 {
                     b.Navigation("Applications");
-                });
-
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Request", b =>
-                {
-                    b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
         }

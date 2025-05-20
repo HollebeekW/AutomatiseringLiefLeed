@@ -11,7 +11,7 @@ namespace AutomatiseringLiefLeed.Models
         public string Name { get; set; }
 
         [Required]
-        public double MoneyAmount { get; set; }
+        public double EventPrice { get; set; }
 
         [Required]
         public bool IsAnniversary { get; set; } //to make automatic date checks easier

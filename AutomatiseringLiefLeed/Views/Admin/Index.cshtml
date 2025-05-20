@@ -1,0 +1,47 @@
+﻿@model List<AutomatiseringLiefLeed.Models.Request>
+@{
+    ViewBag.Title = "Admin Dashboard - Aanvragen";
+}
+
+<h2>Aanvraagoverzicht</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Naam medewerker</th>
+            <th>Type gebeurtenis</th>
+            <th>Datum</th>
+            <th>Status</th>
+            <th>Handmatige controle</th>
+            <th>Betaling</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var request in Model)
+            {
+                <tr>
+                    <td>@request.Id</td>
+                    <td>@request.EmployeeName</td>
+                    <td>@request.EventType</td>
+                    <td>@request.RequestDate.ToShortDateString()</td>
+                    <td>@request.Status</td>
+                    <td>@(request.ManualReviewRequired ? "Ja" : "Nee")</td>
+                    <td>@(request.PaymentApproved ? "Goedgekeurd" : "In afwachting")</td>
+                    <td>
+                        @Html.ActionLink("Bekijken", "Details", new { id = request.Id }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">Geen aanvragen gevonden.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@{
     ViewData["Title"] = "Start aanvraag";
 }
 
@@ -21,9 +23,21 @@
 
             <!-- Divider -->
             <hr class="my-4">
+            <p>Let op: u moet ingelogd zijn om een aanvraag te kunnen indienen.</p>
 
             <!-- Button -->
-            <a href="~/AanvraagForm/Create" class="btn btn-primary btn-lg mt-3">Start aanvraag</a>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <a asp-controller="AanvraagForm" asp-action="Create" class="btn btn-success btn-lg mt-3">
+                    Start aanvraag
+                </a>
+            }
+            else
+            {
+                <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary btn-lg mt-3">
+                    Log in om te starten
+                </a>
+            }
         </div>
     </div>
 </div>

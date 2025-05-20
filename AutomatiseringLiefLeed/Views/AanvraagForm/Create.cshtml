@@ -1,30 +1,58 @@
 ﻿@model AutomatiseringLiefLeed.Models.Application
 
+@{
+    ViewData["Title"] = "Nieuwe aanvraag";
+}
+
+<h2>Aanvraagformulier</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <form asp-action="Create" method="post">
-    <div class="form-group">
-        <label for="SenderId">Naam medewerker</label>
-        <select asp-for="SenderId" class="form-control" asp-items="ViewBag.Employees"></select>
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="SenderName" />
+    <input type="hidden" asp-for="RecipientId" />
+    <input type="hidden" asp-for="RecipientName" />
+    <input type="hidden" asp-for="DepartmentId" />
+
+    <div class="form-group mb-3">
+        <label asp-for="SenderId" class="form-label">1. Naam medewerker <span class="text-danger">(verplicht)</span></label>
+        <input asp-for="SenderId" class="form-control" list="employeeList" placeholder="Zoek en selecteer medewerker..." autocomplete="off" />
+        <datalist id="employeeList">
+            @foreach (var employee in (ViewBag.EmployeesList as List<SelectListItem>) ?? new List<SelectListItem>())
+            {
+                <option value="@employee.Value">@employee.Text</option>
+            }
+        </datalist>
+        <span asp-validation-for="SenderId" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label for="RecipientId">Ontvanger</label>
-        <select asp-for="RecipientId" class="form-control" asp-items="ViewBag.Employees"></select>
+
+    <div class="form-group mb-3">
+        <label asp-for="ReasonId" class="form-label">Reden aanvraag <span class="text-danger">*</span></label>
+        <select asp-for="ReasonId" class="form-control" asp-items="ViewBag.Reasons">
+            <option value="">-- Kies reden --</option>
+        </select>
+        <span asp-validation-for="ReasonId" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label for="DepartmentId">Afdeling</label>
-        <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.Departments"></select>
-    </div>
-
-    <div class="form-group">
-        <label for="ReasonId">Reden aanvraag</label>
-        <select asp-for="ReasonId" class="form-control" asp-items="ViewBag.Reasons"></select>
-    </div>
-
-    <div class="form-group">
-        <label for="DateOfIssue">Datum gebeurtenis</label>
+    <div class="form-group mb-3">
+        <label asp-for="DateOfIssue" class="form-label">Datum gebeurtenis <span class="text-danger">*</span></label>
         <input asp-for="DateOfIssue" type="date" class="form-control" />
+        <span asp-validation-for="DateOfIssue" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-success mt-3">Aanvraag versturen</button>
+    <button type="submit" class="btn btn-success">Aanvraag versturen</button>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

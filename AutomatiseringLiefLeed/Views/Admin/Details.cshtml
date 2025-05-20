@@ -1,0 +1,56 @@
+﻿@model AutomatiseringLiefLeed.Models.Request
+@{
+    ViewBag.Title = "Details aanvraag";
+}
+
+<h2>Details aanvraag #@Model.Id</h2>
+
+<table class="table">
+    <tr><th>Naam</th><td>@Model.EmployeeName</td></tr>
+    <tr><th>Evenement</th><td>@Model.EventType</td></tr>
+    <tr><th>Datum</th><td>@Model.RequestDate.ToShortDateString()</td></tr>
+    <tr><th>Status</th><td>@Model.Status</td></tr>
+    <tr><th>Manuele controle</th><td>@(Model.ManualReviewRequired ? "Ja" : "Nee")</td></tr>
+    <tr><th>Betaling</th><td>@(Model.PaymentApproved ? "Verwerkt" : "In afwachting")</td></tr>
+    <tr><th>Opmerking</th><td>@Model.Note</td></tr>
+</table>
+
+<form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
+    <button type="submit" class="btn btn-success">Goedkeuren</button>
+</form>
+
+<form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="d-inline">
+    <button type="submit" class="btn btn-danger">Afkeuren</button>
+</form>
+
+<hr />
+<h4>Voeg een opmerking toe</h4>
+<form asp-action="AddNote" method="post">
+    <input type="hidden" name="id" value="@Model.Id" />
+    <div class="mb-3">
+        <textarea name="note" class="form-control" rows="3" placeholder="Typ hier je opmerking..."></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Opslaan</button>
+</form>
+
+<br />
+
+@if (Model.Notes != null && Model.Notes.Any())
+{
+    <h4>Notities</h4>
+    <ul class="list-group mb-3">
+        @foreach (var note in Model.Notes)
+        {
+            <li class="list-group-item">
+                <strong>@note.AuthorName</strong> (@note.CreatedAt.ToShortDateString()):<br />
+                @note.Text
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Er zijn nog geen notities toegevoegd.</p>
+}
+
+<a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
