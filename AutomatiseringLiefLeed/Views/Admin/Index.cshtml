@@ -1,47 +1,42 @@
-﻿@model List<AutomatiseringLiefLeed.Models.Request>
-@{
-    ViewBag.Title = "Admin Dashboard - Aanvragen";
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2>Aanvraagoverzicht</h2>
+<div class="container mt-5">
+    <h1 class="mb-4">Welkom bij het Admin Dashboard</h1>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Naam medewerker</th>
-            <th>Type gebeurtenis</th>
-            <th>Datum</th>
-            <th>Status</th>
-            <th>Handmatige controle</th>
-            <th>Betaling</th>
-            <th>Acties</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            foreach (var request in Model)
-            {
-                <tr>
-                    <td>@request.Id</td>
-                    <td>@request.EmployeeName</td>
-                    <td>@request.EventType</td>
-                    <td>@request.RequestDate.ToShortDateString()</td>
-                    <td>@request.Status</td>
-                    <td>@(request.ManualReviewRequired ? "Ja" : "Nee")</td>
-                    <td>@(request.PaymentApproved ? "Goedgekeurd" : "In afwachting")</td>
-                    <td>
-                        @Html.ActionLink("Bekijken", "Details", new { id = request.Id }, new { @class = "btn btn-primary btn-sm" })
-                    </td>
-                </tr>
-            }
-        }
-        else
-        {
-            <tr>
-                <td colspan="8" class="text-center">Geen aanvragen gevonden.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <p class="text-muted">Kies een beheerfunctie:</p>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Aanvragen beheren</h5>
+                    <p class="card-text">Bekijk, keur goed of wijs aanvragen af.</p>
+                    <a asp-controller="Admin" asp-action="ApplicationOverview" class="btn btn-primary">Bekijk aanvragen</a>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Gebruikers</h5>
+                    <p class="card-text">Beheer toegang of gebruikersinformatie.</p>
+                    <a href="#" class="btn btn-outline-secondary disabled">Nog niet beschikbaar</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Rapportage / Logs</h5>
+                    <p class="card-text">Bekijk statistieken of logboeken.</p>
+                    <a href="#" class="btn btn-outline-secondary disabled">Nog niet beschikbaar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,6 +19,12 @@ namespace AutomatiseringLiefLeed.Controllers
         // GET: /Admin/
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+
+        // ApplicationOverview view
+        public async Task<IActionResult> ApplicationOverview()
+        {
             var requests = await _context.Requests
                 .OrderByDescending(r => r.RequestDate)
                 .ToListAsync();
