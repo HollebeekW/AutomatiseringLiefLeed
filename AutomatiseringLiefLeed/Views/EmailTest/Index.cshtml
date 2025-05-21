@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Send Test Email";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Index" method="post">
+    <div class="form-group">
+        <label for="email">Recipient Email Address:</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Send Test Email</button>
+</form>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success mt-3">
+        @ViewBag.Message
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

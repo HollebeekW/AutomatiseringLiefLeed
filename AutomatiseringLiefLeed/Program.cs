@@ -1,7 +1,9 @@
 using AutomatiseringLiefLeed.Data;
 using AutomatiseringLiefLeed.Services;
+using AutomatiseringLiefLeed.Services.Email;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 
 namespace AutomatiseringLiefLeed
 {
@@ -20,9 +22,14 @@ namespace AutomatiseringLiefLeed
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             builder.Services.AddControllersWithViews();
+
             // AFAS Service Configuration
             builder.Services.AddHttpClient<AFASService>();
             builder.Services.AddScoped<AFASService>();
+
+            //Email Service Configuration
+            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+            builder.Services.AddTransient<IEmailService, EmailService>();
 
             var app = builder.Build();
 
