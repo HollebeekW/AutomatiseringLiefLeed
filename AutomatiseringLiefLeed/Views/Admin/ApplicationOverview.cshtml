@@ -1,4 +1,4 @@
-﻿@model List<AutomatiseringLiefLeed.Models.Request>
+﻿@model List<AutomatiseringLiefLeed.Models.Application>
 @{
     ViewBag.Title = "Admin Dashboard - Aanvragen";
 }
@@ -9,30 +9,30 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Naam medewerker</th>
-            <th>Type gebeurtenis</th>
-            <th>Datum</th>
-            <th>Status</th>
-            <th>Handmatige controle</th>
-            <th>Betaling</th>
+            <th>Aanvrager</th>
+            <th>Ontvanger</th>
+            <th>Datum aanvraag</th>
+            <th>Datum uitgifte</th>
+            <th>Geaccepteerd</th>
+            <th>Reden</th>
             <th>Acties</th>
         </tr>
     </thead>
     <tbody>
         @if (Model != null && Model.Any())
         {
-            foreach (var request in Model)
+            foreach (var app in Model)
             {
                 <tr>
-                    <td>@request.Id</td>
-                    <td>@request.EmployeeName</td>
-                    <td>@request.EventType</td>
-                    <td>@request.RequestDate.ToShortDateString()</td>
-                    <td>@request.Status</td>
-                    <td>@(request.ManualReviewRequired ? "Ja" : "Nee")</td>
-                    <td>@(request.PaymentApproved ? "Goedgekeurd" : "In afwachting")</td>
+                    <td>@app.Id</td>
+                    @* <td>@app.SenderName</td> *@
+                    @* <td>@app.RecipientName</td> *@
+                    <td>@app.DateOfApplication.ToShortDateString()</td>
+                    <td>@app.DateOfIssue.ToShortDateString()</td>
+                    <td>@(app.IsAccepted ? "Ja" : "Nee")</td>
+                    <td>@(app.Reason != null ? app.Reason.Name : app.ReasonId.ToString())</td>
                     <td>
-                        @Html.ActionLink("Bekijken", "Details", new { id = request.Id }, new { @class = "btn btn-primary btn-sm" })
+                        @Html.ActionLink("Bekijken", "Details", new { id = app.Id }, new { @class = "btn btn-primary btn-sm" })
                     </td>
                 </tr>
             }

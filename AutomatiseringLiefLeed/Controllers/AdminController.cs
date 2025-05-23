@@ -1,5 +1,6 @@
 ﻿using AutomatiseringLiefLeed.Data;
 using AutomatiseringLiefLeed.Models;
+using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace AutomatiseringLiefLeed.Controllers
         }
 
         // GET: /Admin/
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -25,20 +26,22 @@ namespace AutomatiseringLiefLeed.Controllers
         // ApplicationOverview view
         public async Task<IActionResult> ApplicationOverview()
         {
-            var requests = await _context.Requests
-                .OrderByDescending(r => r.RequestDate)
-                .ToListAsync();
+            //var requests = await _context.Requests
+            //    .OrderByDescending(r => r.RequestDate)
+            //    .ToListAsync();
 
-            return View(requests);
+            //return View(requests);
+            return View();
         }
 
         // GET: /Admin/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var request = await _context.Requests.FindAsync(id);
-            if (request == null) return NotFound();
+            //var request = await _context.Requests.FindAsync(id);
+            //if (request == null) return NotFound();
 
-            return View(request);
+            //return View(request);
+            return View();
         }
 
         // POST: /Admin/Approve/5
@@ -46,11 +49,11 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id)
         {
-            var request = await _context.Requests.FindAsync(id);
-            if (request == null) return NotFound();
+            //var request = await _context.Requests.FindAsync(id);
+            //if (request == null) return NotFound();
 
-            request.Status = RequestStatus.Approved;
-            await _context.SaveChangesAsync();
+            //request.Status = RequestStatus.Approved;
+            //await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -60,11 +63,11 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)
         {
-            var request = await _context.Requests.FindAsync(id);
-            if (request == null) return NotFound();
+            //var request = await _context.Requests.FindAsync(id);
+            //if (request == null) return NotFound();
 
-            request.Status = RequestStatus.Rejected;
-            await _context.SaveChangesAsync();
+            //request.Status = RequestStatus.Rejected;
+            //await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -74,11 +77,11 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNote(int id, string note)
         {
-            var request = await _context.Requests.FindAsync(id);
-            if (request == null) return NotFound();
+            //var request = await _context.Requests.FindAsync(id);
+            //if (request == null) return NotFound();
 
-            request.Note = note;
-            await _context.SaveChangesAsync();
+            //request.Note = note;
+            //await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id });
         }

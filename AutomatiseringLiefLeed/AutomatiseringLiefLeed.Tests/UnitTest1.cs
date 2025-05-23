@@ -8,37 +8,38 @@ namespace AutomatiseringLiefLeed.Tests;
 public class UnitTest1
 {
     [Fact]
-    public async Task Can_Save_Request_To_Database()
+    public async Task Can_Save_Application_To_Database()
     {
         // Arrange – in-memory database aanmaken
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "RequestTestDB") // Ensure the extension method is available
+            .UseInMemoryDatabase(databaseName: "ApplicationTestDB")
             .Options;
 
         using (var context = new ApplicationDbContext(options))
         {
-            var request = new Request
+            var application = new Application
             {
-                EmployeeName = "Test Medewerker",
-                EventType = "jubileum",
-                RequestDate = DateTime.Today,
-                Note = "testnotitie",
-                Status = "Pending",
-                ManualReviewRequired = false,
-                PaymentApproved = false
+                Id = 1,
+                SenderId = "user123",
+                RecipientId = "user456",
+                DateOfApplication = DateTime.Today,
+                DateOfIssue = DateTime.Today.AddDays(1),
+                IsAccepted = false,
+                ReasonId = 2
             };
 
             // Act – opslaan
-            context.Requests.Add(request);
+            context.Applications.Add(application);
             await context.SaveChangesAsync();
         }
 
         // Assert – ophalen en controleren
         using (var context = new ApplicationDbContext(options))
         {
-            var result = await context.Requests.FirstOrDefaultAsync(r => r.EmployeeName == "Test Medewerker");
+            var result = await context.Applications.FirstOrDefaultAsync(a => a.SenderId == "user123");
             Assert.NotNull(result);
-            Assert.Equal("jubileum", result.EventType);
+            Assert.Equal(2, result.ReasonId);
+            Assert.False(result.IsAccepted);
         }
     }
 }

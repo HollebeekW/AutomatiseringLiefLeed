@@ -1,4 +1,4 @@
-﻿@model AutomatiseringLiefLeed.Models.Request
+﻿@model AutomatiseringLiefLeed.Models.Application
 @{
     ViewBag.Title = "Details aanvraag";
 }
@@ -6,14 +6,17 @@
 <h2>Details aanvraag #@Model.Id</h2>
 
 <table class="table">
-    <tr><th>Naam</th><td>@Model.EmployeeName</td></tr>
-    <tr><th>Evenement</th><td>@Model.EventType</td></tr>
-    <tr><th>Datum</th><td>@Model.RequestDate.ToShortDateString()</td></tr>
-    <tr><th>Status</th><td>@Model.Status</td></tr>
-    <tr><th>Manuele controle</th><td>@(Model.ManualReviewRequired ? "Ja" : "Nee")</td></tr>
-    <tr><th>Betaling</th><td>@(Model.PaymentApproved ? "Verwerkt" : "In afwachting")</td></tr>
-    <tr><th>Opmerking</th><td>@Model.Note</td></tr>
+    <tr><th>Id</th><td>@Model.Id</td></tr>
+    <tr><th>Aanvrager Id</th><td>@Model.SenderId</td></tr>
+    @* <tr><th>Aanvrager Naam</th><td>@Model.SenderName</td></tr> *@
+    <tr><th>Ontvanger Id</th><td>@Model.RecipientId</td></tr>
+    @* <tr><th>Ontvanger Naam</th><td>@Model.RecipientName</td></tr> *@
+    <tr><th>Datum aanvraag</th><td>@Model.DateOfApplication.ToShortDateString()</td></tr>
+    <tr><th>Datum uitgifte</th><td>@Model.DateOfIssue.ToShortDateString()</td></tr>
+    <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted ? "Ja" : "Nee")</td></tr>
+    <tr><th>Reden</th><td>@(Model.Reason != null ? Model.Reason.Name : Model.ReasonId.ToString())</td></tr>
 </table>
+
 
 <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
     <button type="submit" class="btn btn-success">Goedkeuren</button>

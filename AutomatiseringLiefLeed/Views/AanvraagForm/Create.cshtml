@@ -18,14 +18,9 @@
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
 
-    <input type="hidden" asp-for="SenderName" />
-    <input type="hidden" asp-for="RecipientId" />
-    <input type="hidden" asp-for="RecipientName" />
-    <input type="hidden" asp-for="DepartmentId" />
-
     <div class="form-group mb-3">
-        <label asp-for="SenderId" class="form-label">1. Naam medewerker <span class="text-danger">(verplicht)</span></label>
-        <input asp-for="SenderId" class="form-control" list="employeeList" placeholder="Zoek en selecteer medewerker..." autocomplete="off" />
+        <label asp-for="SenderId" class="form-label">1. Aanvrager <span class="text-danger">*</span></label>
+        <input asp-for="SenderId" class="form-control" list="employeeList" placeholder="Zoek en selecteer aanvrager..." autocomplete="off" />
         <datalist id="employeeList">
             @foreach (var employee in (ViewBag.EmployeesList as List<SelectListItem>) ?? new List<SelectListItem>())
             {
@@ -35,17 +30,28 @@
         <span asp-validation-for="SenderId" class="text-danger"></span>
     </div>
 
+    <div class="form-group mb-3">
+        <label asp-for="RecipientId" class="form-label">2. Ontvanger <span class="text-danger">*</span></label>
+        <input asp-for="RecipientId" class="form-control" list="employeeListRecipient" placeholder="Zoek en selecteer ontvanger..." autocomplete="off" />
+        <datalist id="employeeListRecipient">
+            @foreach (var employee in (ViewBag.EmployeesList as List<SelectListItem>) ?? new List<SelectListItem>())
+            {
+                <option value="@employee.Value">@employee.Text</option>
+            }
+        </datalist>
+        <span asp-validation-for="RecipientId" class="text-danger"></span>
+    </div>
 
     <div class="form-group mb-3">
-        <label asp-for="ReasonId" class="form-label">Reden aanvraag <span class="text-danger">*</span></label>
+        <label asp-for="ReasonId" class="form-label">3. Reden aanvraag <span class="text-danger">*</span></label>
         <select asp-for="ReasonId" class="form-control" asp-items="ViewBag.Reasons">
-            <option value="">-- Kies reden --</option>
+            <option disabled selected value="">-- Kies reden --</option>
         </select>
         <span asp-validation-for="ReasonId" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-3">
-        <label asp-for="DateOfIssue" class="form-label">Datum gebeurtenis <span class="text-danger">*</span></label>
+        <label asp-for="DateOfIssue" class="form-label">4. Datum gebeurtenis <span class="text-danger">*</span></label>
         <input asp-for="DateOfIssue" type="date" class="form-control" />
         <span asp-validation-for="DateOfIssue" class="text-danger"></span>
     </div>

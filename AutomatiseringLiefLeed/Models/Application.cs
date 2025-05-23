@@ -12,15 +12,7 @@ namespace AutomatiseringLiefLeed.Models
         public string SenderId { get; set; }
 
         [Required]
-        public string SenderName { get; set;}
-
-        public int DepartmentId { get; set; }
-
-        [Required]
         public string RecipientId { get; set; }
-
-        [Required]
-        public string RecipientName { get; set;}
 
         [Required]
         [DataType(DataType.Date)]
@@ -31,9 +23,15 @@ namespace AutomatiseringLiefLeed.Models
         public DateTime DateOfIssue { get; set; }
 
         [Required]
+        public bool IsAccepted { get; set; }
+
+        [Required]
         public int ReasonId { get; set; }
 
         [ForeignKey("ReasonId")]
         public virtual Reason Reason { get; set; }
+
+        public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
+
     }
 }

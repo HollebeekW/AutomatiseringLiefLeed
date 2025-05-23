@@ -4,7 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<IsTestProject>true</IsTestProject>
+	<OutputType>Exe</OutputType>
+	<IsTestProject>false</IsTestProject>
+	<StartupObject>AutomatiseringLiefLeed.Program</StartupObject>
     <UserSecretsId>aspnet-AutomatiseringLiefLeed-9cc8ae84-c37b-4b95-8342-02db499abd6d</UserSecretsId>
   </PropertyGroup>
 
@@ -12,9 +14,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.15" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.15" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.15" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.15" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
     <PackageReference Include="Moq" Version="4.20.72" />

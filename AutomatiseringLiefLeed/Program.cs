@@ -28,8 +28,6 @@ namespace AutomatiseringLiefLeed
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-
             builder.Services.AddControllersWithViews();
 
             //  AFAS Service
@@ -75,7 +73,7 @@ namespace AutomatiseringLiefLeed
                 }
 
                 // Create default admin user
-                string adminEmail = "admin@gemeente.nl";
+                string adminEmail = "admin@almere.nl";
                 string adminPassword = "Admin123!";
                 var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -101,7 +99,6 @@ namespace AutomatiseringLiefLeed
                     await userManager.AddToRoleAsync(adminUser, "Admin");
                 }
             }
-
             await app.RunAsync();
         }
     }
