@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
 	<OutputType>Exe</OutputType>
-	<IsTestProject>false</IsTestProject>
+	<IsTestProject>true</IsTestProject>
 	<StartupObject>AutomatiseringLiefLeed.Program</StartupObject>
     <UserSecretsId>aspnet-AutomatiseringLiefLeed-9cc8ae84-c37b-4b95-8342-02db499abd6d</UserSecretsId>
   </PropertyGroup>
@@ -25,5 +25,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include=".github\workflows\build.yml" />
   </ItemGroup>
 </Project>
