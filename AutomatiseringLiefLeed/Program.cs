@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AutomatiseringLiefLeed
 {
+    // test
     public class Program
     {
         public static async Task Main(string[] args)
