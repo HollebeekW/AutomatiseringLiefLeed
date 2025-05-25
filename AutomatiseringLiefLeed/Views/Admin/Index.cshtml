@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Welkom bij het Admin Dashboard</h1>
+
+    <p class="text-muted">Kies een beheerfunctie:</p>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Aanvragen beheren</h5>
+                    <p class="card-text">Bekijk, keur goed of wijs aanvragen af.</p>
+                    <a asp-controller="Admin" asp-action="ApplicationOverview" class="btn btn-primary">Bekijk aanvragen</a>
+                </div>
+            </div>
+        </div>
+
+       
+
+        <div class="col-md-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Rapportage / Logs</h5>
+                    <p class="card-text">Bekijk statistieken of logboeken.</p>
+                    <a href="#" class="btn btn-outline-secondary disabled">Nog niet beschikbaar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

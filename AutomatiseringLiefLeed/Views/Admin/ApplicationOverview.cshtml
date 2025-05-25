@@ -1,0 +1,49 @@
+﻿@model List<AutomatiseringLiefLeed.Models.Application>
+@{
+    ViewBag.Title = "Admin Dashboard - Aanvragen";
+}
+
+<h2>Aanvraagoverzicht</h2>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Aanvrager</th>
+            <th>Ontvanger</th>
+            <th>Datum aanvraag</th>
+            <th>Datum uitgifte</th>
+            <th>Geaccepteerd</th>
+            <th>Reden</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var app in Model)
+            {
+                <tr>
+                    <td>@app.Id</td>
+                    @* <td>@app.SenderName</td> *@
+                    @* <td>@app.RecipientName</td> *@
+                    <td>@app.DateOfApplication.ToShortDateString()</td>
+                    <td>@app.DateOfIssue.ToShortDateString()</td>
+                    <td>@(app.IsAccepted ? "Ja" : "Nee")</td>
+                    <td>@(app.Reason != null ? app.Reason.Name : app.ReasonId.ToString())</td>
+                    <td>
+                        @Html.ActionLink("Bekijken", "Details", new { id = app.Id }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="8" class="text-center">Geen aanvragen gevonden.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<a href="~/Admin/Index" class="btn btn-secondary mb-3">Terug naar dashboard</a>

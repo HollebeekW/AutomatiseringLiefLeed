@@ -4,6 +4,7 @@ using AutomatiseringLiefLeed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomatiseringLiefLeed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520173531_AddIsAdminToUsers")]
+    partial class AddIsAdminToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,8 +39,8 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("bit");
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReasonId")
                         .HasColumnType("int");
@@ -46,7 +49,15 @@ namespace AutomatiseringLiefLeed.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecipientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -55,148 +66,6 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.HasIndex("ReasonId");
 
                     b.ToTable("Applications");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateOfApplication = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfIssue = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAccepted = true,
-                            ReasonId = 1,
-                            RecipientId = "user-alice",
-                            SenderId = "user-alice"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DateOfApplication = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfIssue = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAccepted = false,
-                            ReasonId = 2,
-                            RecipientId = "user-bob",
-                            SenderId = "user-bob"
-                        });
-                });
-
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateOfEmployment")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateOfMarriage")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateOfSickness")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsSick")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Note", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("AuthorName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
-
-                    b.ToTable("Notes");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>
@@ -207,10 +76,7 @@ namespace AutomatiseringLiefLeed.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("AnniversaryYears")
-                        .HasColumnType("float");
-
-                    b.Property<double>("GiftAmount")
+                    b.Property<double>("EventPrice")
                         .HasColumnType("float");
 
                     b.Property<bool>("IsAnniversary")
@@ -228,155 +94,145 @@ namespace AutomatiseringLiefLeed.Migrations
                         new
                         {
                             Id = 1,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "geboorte"
                         },
                         new
                         {
                             Id = 2,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziek"
                         },
                         new
                         {
                             Id = 3,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziekte 3 maanden"
                         },
                         new
                         {
                             Id = 4,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziekte 3 weken"
                         },
                         new
                         {
                             Id = 5,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziekte ziekenhuisopname"
                         },
                         new
                         {
                             Id = 6,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "huwelijk/geregistreerd partnerschap"
                         },
                         new
                         {
                             Id = 7,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "ontslag/fpu/pensionering"
                         },
                         new
                         {
                             Id = 8,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "50e verjaardag"
                         },
                         new
                         {
                             Id = 9,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "65e verjaardag"
                         },
                         new
                         {
                             Id = 10,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "12,5 jaar huwelijk"
                         },
                         new
                         {
                             Id = 11,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "12,5 jaar ambtenaar"
                         },
                         new
                         {
                             Id = 12,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "25 jaar huwelijk"
                         },
                         new
                         {
                             Id = 13,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 50.0,
+                            EventPrice = 50.0,
                             IsAnniversary = false,
                             Name = "overlijden ambtenaar of huisgenoot"
                         },
                         new
                         {
                             Id = 14,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "40 jaar ambtenaar"
                         },
                         new
                         {
                             Id = 15,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "40 jarig huwelijk"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
-                            IsAnniversary = true,
-                            Name = "Verjaardag"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 50.0,
-                            IsAnniversary = true,
-                            Name = "Trouwen"
-                        },
-                        new
-                        {
-                            Id = 101,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 250.0,
-                            IsAnniversary = false,
-                            Name = "Marriage"
-                        },
-                        new
-                        {
-                            Id = 102,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 150.0,
-                            IsAnniversary = false,
-                            Name = "Birth"
                         });
+                });
+
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Request", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PaymentProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("RequiresManualReview")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Requests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -429,6 +285,71 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -527,17 +448,6 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Navigation("Reason");
                 });
 
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Note", b =>
-                {
-                    b.HasOne("AutomatiseringLiefLeed.Models.Application", "Application")
-                        .WithMany("Notes")
-                        .HasForeignKey("ApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Application");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -549,7 +459,7 @@ namespace AutomatiseringLiefLeed.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("AutomatiseringLiefLeed.Models.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -558,7 +468,7 @@ namespace AutomatiseringLiefLeed.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("AutomatiseringLiefLeed.Models.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -573,7 +483,7 @@ namespace AutomatiseringLiefLeed.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AutomatiseringLiefLeed.Models.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -582,16 +492,11 @@ namespace AutomatiseringLiefLeed.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("AutomatiseringLiefLeed.Models.ApplicationUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Application", b =>
-                {
-                    b.Navigation("Notes");
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>

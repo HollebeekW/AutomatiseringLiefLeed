@@ -11,10 +11,12 @@ namespace AutomatiseringLiefLeed.Models
         public string Name { get; set; }
 
         [Required]
-        public double MoneyAmount { get; set; }
+        public double GiftAmount { get; set; }
 
         [Required]
-        public bool IsAnniversary { get; set; } //to make automatic date checks easier
+        public bool IsAnniversary { get; set; }
+        [Required]
+        public double AnniversaryYears { get; set; }
 
         [Required]
         public virtual ICollection<Application> Applications { get; set; }

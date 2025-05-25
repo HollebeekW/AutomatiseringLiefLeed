@@ -4,6 +4,7 @@ using AutomatiseringLiefLeed.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutomatiseringLiefLeed.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250520215224_AddRequestNotesRelation")]
+    partial class AddRequestNotesRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,8 +39,8 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Property<DateTime>("DateOfIssue")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsAccepted")
-                        .HasColumnType("bit");
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ReasonId")
                         .HasColumnType("int");
@@ -46,7 +49,15 @@ namespace AutomatiseringLiefLeed.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("RecipientName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SenderName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -55,28 +66,6 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.HasIndex("ReasonId");
 
                     b.ToTable("Applications");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DateOfApplication = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfIssue = new DateTime(2024, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAccepted = true,
-                            ReasonId = 1,
-                            RecipientId = "user-alice",
-                            SenderId = "user-alice"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DateOfApplication = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfIssue = new DateTime(2024, 1, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsAccepted = false,
-                            ReasonId = 2,
-                            RecipientId = "user-bob",
-                            SenderId = "user-bob"
-                        });
                 });
 
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.ApplicationUser", b =>
@@ -170,16 +159,13 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Note", b =>
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Notes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ApplicationId")
-                        .HasColumnType("int");
 
                     b.Property<string>("AuthorName")
                         .IsRequired()
@@ -188,13 +174,16 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("RequestId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ApplicationId");
+                    b.HasIndex("RequestId");
 
                     b.ToTable("Notes");
                 });
@@ -207,10 +196,7 @@ namespace AutomatiseringLiefLeed.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double>("AnniversaryYears")
-                        .HasColumnType("float");
-
-                    b.Property<double>("GiftAmount")
+                    b.Property<double>("EventPrice")
                         .HasColumnType("float");
 
                     b.Property<bool>("IsAnniversary")
@@ -228,154 +214,183 @@ namespace AutomatiseringLiefLeed.Migrations
                         new
                         {
                             Id = 1,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "geboorte"
                         },
                         new
                         {
                             Id = 2,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziek"
                         },
                         new
                         {
                             Id = 3,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziekte 3 maanden"
                         },
                         new
                         {
                             Id = 4,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziekte 3 weken"
                         },
                         new
                         {
                             Id = 5,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = false,
                             Name = "ziekte ziekenhuisopname"
                         },
                         new
                         {
                             Id = 6,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "huwelijk/geregistreerd partnerschap"
                         },
                         new
                         {
                             Id = 7,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "ontslag/fpu/pensionering"
                         },
                         new
                         {
                             Id = 8,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "50e verjaardag"
                         },
                         new
                         {
                             Id = 9,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "65e verjaardag"
                         },
                         new
                         {
                             Id = 10,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "12,5 jaar huwelijk"
                         },
                         new
                         {
                             Id = 11,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "12,5 jaar ambtenaar"
                         },
                         new
                         {
                             Id = 12,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 25.0,
+                            EventPrice = 25.0,
                             IsAnniversary = true,
                             Name = "25 jaar huwelijk"
                         },
                         new
                         {
                             Id = 13,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 50.0,
+                            EventPrice = 50.0,
                             IsAnniversary = false,
                             Name = "overlijden ambtenaar of huisgenoot"
                         },
                         new
                         {
                             Id = 14,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "40 jaar ambtenaar"
                         },
                         new
                         {
                             Id = 15,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "40 jarig huwelijk"
                         },
                         new
                         {
                             Id = 20,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 40.0,
+                            EventPrice = 40.0,
                             IsAnniversary = true,
                             Name = "Verjaardag"
                         },
                         new
                         {
                             Id = 21,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 50.0,
+                            EventPrice = 50.0,
                             IsAnniversary = true,
                             Name = "Trouwen"
+                        });
+                });
+
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Request", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmployeeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EventType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ManualReviewRequired")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PaymentApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Requests");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            EmployeeName = "Alice Example",
+                            EventType = "Marriage",
+                            ManualReviewRequired = false,
+                            Note = "Voorbeeldaanvraag",
+                            PaymentApproved = true,
+                            RequestDate = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Pending"
                         },
                         new
                         {
-                            Id = 101,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 250.0,
-                            IsAnniversary = false,
-                            Name = "Marriage"
-                        },
-                        new
-                        {
-                            Id = 102,
-                            AnniversaryYears = 0.0,
-                            GiftAmount = 150.0,
-                            IsAnniversary = false,
-                            Name = "Birth"
+                            Id = 2,
+                            EmployeeName = "Bob Test",
+                            EventType = "Birth",
+                            ManualReviewRequired = true,
+                            Note = "Spoed",
+                            PaymentApproved = false,
+                            RequestDate = new DateTime(2024, 1, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Status = "Pending"
                         });
                 });
 
@@ -527,15 +542,15 @@ namespace AutomatiseringLiefLeed.Migrations
                     b.Navigation("Reason");
                 });
 
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Note", b =>
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Notes", b =>
                 {
-                    b.HasOne("AutomatiseringLiefLeed.Models.Application", "Application")
+                    b.HasOne("AutomatiseringLiefLeed.Models.Request", "Request")
                         .WithMany("Notes")
-                        .HasForeignKey("ApplicationId")
+                        .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Application");
+                    b.Navigation("Request");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -589,14 +604,14 @@ namespace AutomatiseringLiefLeed.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Application", b =>
-                {
-                    b.Navigation("Notes");
-                });
-
             modelBuilder.Entity("AutomatiseringLiefLeed.Models.Reason", b =>
                 {
                     b.Navigation("Applications");
+                });
+
+            modelBuilder.Entity("AutomatiseringLiefLeed.Models.Request", b =>
+                {
+                    b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618
         }
