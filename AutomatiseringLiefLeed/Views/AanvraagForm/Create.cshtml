@@ -45,7 +45,7 @@
     <div class="form-group mb-3">
         <label asp-for="ReasonId" class="form-label">3. Reden aanvraag <span class="text-danger">*</span></label>
         <select asp-for="ReasonId" class="form-control" asp-items="ViewBag.Reasons">
-            <option disabled selected value="">-- Kies reden --</option>
+            <option disabled value="">-- Kies reden --</option>
         </select>
         <span asp-validation-for="ReasonId" class="text-danger"></span>
     </div>

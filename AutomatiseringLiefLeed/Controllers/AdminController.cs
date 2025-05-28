@@ -26,12 +26,12 @@ namespace AutomatiseringLiefLeed.Controllers
         // ApplicationOverview view
         public async Task<IActionResult> ApplicationOverview()
         {
-            //var requests = await _context.Requests
-            //    .OrderByDescending(r => r.RequestDate)
-            //    .ToListAsync();
+            var applications = await _context.Applications
+                .OrderByDescending(r => r.DateOfApplication)
+                .ToListAsync();
 
             //return View(requests);
-            return View();
+            return View(applications);
         }
 
         // GET: /Admin/Details/5
