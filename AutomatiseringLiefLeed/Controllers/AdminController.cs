@@ -27,8 +27,10 @@ namespace AutomatiseringLiefLeed.Controllers
         public async Task<IActionResult> ApplicationOverview()
         {
             var applications = await _context.Applications
-                .OrderByDescending(r => r.DateOfApplication)
-                .ToListAsync();
+            .Include(a => a.Reason)
+            .OrderByDescending(a => a.DateOfApplication)
+            .ToListAsync();
+
 
             //return View(requests);
             return View(applications);
@@ -37,11 +39,9 @@ namespace AutomatiseringLiefLeed.Controllers
         // GET: /Admin/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            //var request = await _context.Requests.FindAsync(id);
-            //if (request == null) return NotFound();
+            var application = await _context.Applications.FindAsync(id);
 
-            //return View(request);
-            return View();
+            return View(application);
         }
 
         // POST: /Admin/Approve/5
@@ -49,11 +49,11 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id)
         {
-            //var request = await _context.Requests.FindAsync(id);
-            //if (request == null) return NotFound();
+            var application = await _context.Applications.FindAsync(id);
+            if (application == null) return NotFound();
 
-            //request.Status = RequestStatus.Approved;
-            //await _context.SaveChangesAsync();
+            application.IsAccepted = true;
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -63,11 +63,11 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)
         {
-            //var request = await _context.Requests.FindAsync(id);
-            //if (request == null) return NotFound();
+            var application = await _context.Applications.FindAsync(id);
+            if (application == null) return NotFound();
 
-            //request.Status = RequestStatus.Rejected;
-            //await _context.SaveChangesAsync();
+            application.IsAccepted = false;
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
@@ -77,11 +77,20 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddNote(int id, string note)
         {
-            //var request = await _context.Requests.FindAsync(id);
-            //if (request == null) return NotFound();
+            var application = await _context.Applications.FindAsync(id);
+            if (application == null) return NotFound();
 
-            //request.Note = note;
-            //await _context.SaveChangesAsync();
+           
+            var newNote = new Note
+            {
+                ApplicationId = application.Id,
+                AuthorName = User.Identity?.Name ?? "Unknown",
+                Text = note,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            _context.Notes.Add(newNote);
+            await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Details), new { id });
         }

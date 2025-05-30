@@ -4,9 +4,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-	<OutputType>Exe</OutputType>
 	<IsTestProject>true</IsTestProject>
 	<StartupObject>AutomatiseringLiefLeed.Program</StartupObject>
+	<RootNamespace>AutomatiseringLiefLeed</RootNamespace>
     <UserSecretsId>aspnet-AutomatiseringLiefLeed-9cc8ae84-c37b-4b95-8342-02db499abd6d</UserSecretsId>
   </PropertyGroup>
 
@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.15" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.15" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.*" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.15" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.15" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.15" />
