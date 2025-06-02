@@ -4,21 +4,15 @@ namespace AutomatiseringLiefLeed.Models
 {
     public class Reason
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+        public string? Name { get; set; }
+        
+        public double? GiftAmount { get; set; }
 
-        [Required]
-        public double GiftAmount { get; set; }
-
-        [Required]
-        public bool IsAnniversary { get; set; }
-        [Required]
-        public double AnniversaryYears { get; set; }
-
-        [Required]
-        public virtual ICollection<Application> Applications { get; set; }
+        public bool? IsAnniversary { get; set; }
+        
+        public double? AnniversaryYears { get; set; }
     }
 }
