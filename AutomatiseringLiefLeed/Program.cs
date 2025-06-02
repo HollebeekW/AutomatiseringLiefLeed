@@ -1,6 +1,7 @@
 using AutomatiseringLiefLeed.Data;
 using AutomatiseringLiefLeed.Models;
 using AutomatiseringLiefLeed.Services;
+using LiefLeedAutomatisering.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +36,22 @@ namespace AutomatiseringLiefLeed
             builder.Services.AddHttpClient<AFASService>();
             builder.Services.AddScoped<AFASService>();
 
+            //Employee import service
+            builder.Services.AddScoped<EmployeeImportService>();
+
             var app = builder.Build();
+
+            //employee seeding from XML
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var context = services.GetRequiredService<ApplicationDbContext>();
+
+                var employeeImportService = services.GetRequiredService<EmployeeImportService>();
+
+                var xml = File.ReadAllText("Data/SeedData/AfasGetConnector_Employees.xml");
+                await employeeImportService.ImportFromXmlAsync(xml);
+            }
 
             //  HTTP request pipeline
             if (app.Environment.IsDevelopment())

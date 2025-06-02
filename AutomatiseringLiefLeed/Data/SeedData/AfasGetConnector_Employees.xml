@@ -1,0 +1,20 @@
+﻿<AfasGetConnector>
+	<LiefenLeed>
+		<Medewerker>000002</Medewerker>
+		<Roepnaam>Jan</Roepnaam>
+		<Achternaam>Jansen</Achternaam>
+		<E-mail_werk>jjansen@almere.nl</E-mail_werk>
+		<Geboortedatum>1960-01-01</Geboortedatum>
+		<AOW-datum>2027-05-01</AOW-datum>
+		<In_dienst_ivm_dienstjaren>1980-04-29</In_dienst_ivm_dienstjaren>
+	</LiefenLeed>
+	<LiefenLeed>
+		<Medewerker>000037</Medewerker>
+		<Roepnaam>Test</Roepnaam>
+		<Achternaam>Lief</Achternaam>
+		<E-mail_werk>tlief@almere.nl</E-mail_werk>
+		<Geboortedatum>1960-10-16</Geboortedatum>
+		<AOW-datum>2031-05-06</AOW-datum>
+		<In_dienst_ivm_dienstjaren>1981-11-01</In_dienst_ivm_dienstjaren>
+	</LiefenLeed>
+</AfasGetConnector>
