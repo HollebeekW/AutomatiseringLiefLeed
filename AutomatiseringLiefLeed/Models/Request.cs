@@ -13,13 +13,13 @@ namespace AutomatiseringLiefLeed.Models
         public int SenderId { get; set; }
 
         [ForeignKey(nameof(SenderId))]
-        public Employee Sender { get; set; }
+        public Employee? Sender { get; set; }
 
         [Required]
         public int RecipientId { get; set; }
 
         [ForeignKey(nameof(RecipientId))]
-        public Employee Recipient { get; set; }
+        public Employee? Recipient { get; set; }
 
         [Required]
         public int ReasonId { get; set; }
@@ -33,8 +33,9 @@ namespace AutomatiseringLiefLeed.Models
         [Required]
         public DateOnly DateOfIssue { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
+        [Required]
         public bool IsApproved { get; set; }
     }
 }
