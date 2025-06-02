@@ -10,14 +10,11 @@ namespace AutomatiseringLiefLeed.Models
         [Required]
         public int Medewerker { get; set; }
 
-        [Required]
-        public string Roepnaam { get; set; }
+        public string? Roepnaam { get; set; }
 
-        [Required]
-        public string Achternaam { get; set; }
+        public string? Achternaam { get; set; }
 
-        [Required]
-        public string EmailWerk { get; set; }
+        public string? EmailWerk { get; set; }
 
         [Required]
         public DateOnly GeboorteDatum { get; set; }
