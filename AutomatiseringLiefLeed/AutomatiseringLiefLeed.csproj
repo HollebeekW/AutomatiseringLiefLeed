@@ -30,5 +30,8 @@
 
   <ItemGroup>
     <None Include=".github\workflows\build.yml" />
+	  <None Update="Data\SeedData\AfasGetConnector_Employees.xml">
+       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+     </None>
   </ItemGroup>
 </Project>
