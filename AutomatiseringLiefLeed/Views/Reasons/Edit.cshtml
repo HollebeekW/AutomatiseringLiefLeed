@@ -4,44 +4,44 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Reden: @Model.Name</h1>
 
-<h4>Reason</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+            </div> *@
             <div class="form-group">
-                <label asp-for="GiftAmount" class="control-label"></label>
+                <label asp-for="GiftAmount" class="control-label">Geldbedrag</label>
                 <input asp-for="GiftAmount" class="form-control" />
                 <span asp-validation-for="GiftAmount" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @* <div class="form-group">
                 <label asp-for="IsAnniversary" class="control-label"></label>
                 <input asp-for="IsAnniversary" class="form-control" />
                 <span asp-validation-for="IsAnniversary" class="text-danger"></span>
-            </div>
-            <div class="form-group">
+            </div> *@
+            @* <div class="form-group">
                 <label asp-for="AnniversaryYears" class="control-label"></label>
                 <input asp-for="AnniversaryYears" class="form-control" />
                 <span asp-validation-for="AnniversaryYears" class="text-danger"></span>
-            </div>
+            </div> *@
+            <br />
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Opslaan" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Terug naar Overzicht</a>
 </div>
 
 @section Scripts {
