@@ -25,7 +25,7 @@ namespace AutomatiseringLiefLeed.Models
         public int ReasonId { get; set; }
 
         [ForeignKey(nameof(ReasonId))]
-        public Reason Reason { get; set; }
+        public Reason? Reason { get; set; }
 
         [Required]
         public DateOnly DateOfApplication { get; set; }
