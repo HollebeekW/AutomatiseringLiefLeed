@@ -34,5 +34,7 @@ namespace AutomatiseringLiefLeed.Models
         public DateOnly DateOfIssue { get; set; }
 
         public string Note { get; set; }
+
+        public bool IsApproved { get; set; }
     }
 }
