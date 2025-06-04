@@ -42,7 +42,13 @@ namespace AutomatiseringLiefLeed.Data
                 .HasForeignKey(r => r.ReasonId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            //!!DONT TOUCH!! reason seeding, commenting out reasons that are unable to be used (like marriage)
+            builder.Entity<Application>()
+                .HasOne(a => a.Sender)
+                .WithMany(e => e.Applications)
+                .HasForeignKey(a => a.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            //!!DONT TOUCH!! reason seeding, commenting out reasons that are unable to be used for now (like marriage)
             builder.Entity<Reason>().HasData(
                 //new Reason { Id = 1, Name = "geboorte", GiftAmount = 25, IsAnniversary = false },
                 new Reason { Id = 2, Name = "ziek", GiftAmount = 25, IsAnniversary = false },

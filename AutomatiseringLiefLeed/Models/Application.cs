@@ -9,10 +9,13 @@ namespace AutomatiseringLiefLeed.Models
         public int Id { get; set; }
 
         [Required]
-        public string SenderId { get; set; } // AFAS aanvrager
+        public int SenderId { get; set; } // FK to Employee
+
+        [ForeignKey("SenderId")]
+        public virtual Employee Sender { get; set; } = null!;
 
         [Required]
-        public string RecipientId { get; set; }
+        public int RecipientId { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -32,6 +35,5 @@ namespace AutomatiseringLiefLeed.Models
         public virtual Reason? Reason { get; set; }
 
         public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
-
     }
 }

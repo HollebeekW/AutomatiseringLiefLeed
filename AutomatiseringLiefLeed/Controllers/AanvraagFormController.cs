@@ -22,6 +22,27 @@
         /// </summary>
         /// <param name="context">The context<see cref="ApplicationDbContext"/></param>
         /// <param name="afasService">The afasService<see cref="AFASService"/></param>
+        
+        private void PopulateDropdownLists()
+        {
+            var employees = _context.Employees
+                .Select(e => new SelectListItem
+                {
+                    Value = e.Id.ToString(),
+                    Text = e.Roepnaam + " " + e.Achternaam
+                });
+
+            var reasons = _context.Reasons
+                .Select(r => new SelectListItem
+                {
+                    Value = r.Id.ToString(),
+                    Text = r.Name + " (€" + r.GiftAmount.ToString() + ")" //Ugly formatting, but it works
+                });
+
+            ViewBag.Employees = employees;
+            ViewBag.Reasons = reasons;
+        }
+
         public AanvraagFormController(ApplicationDbContext context, AFASService afasService) // Updated constructor
         {
             _context = context;
@@ -32,35 +53,8 @@
         [Authorize]
         public IActionResult Create()
         {
-            var employees = new List<SelectListItem>
-            {
-                new SelectListItem { Value = "1", Text = "Alice Smith" },
-                new SelectListItem { Value = "2", Text = "Bob Johnson" }
-            };
-
-            var reasons = new List<SelectListItem>
-{
-                new SelectListItem { Value = "1", Text = "geboorte" },
-                new SelectListItem { Value = "2", Text = "ziek" },
-                new SelectListItem { Value = "3", Text = "ziekte 3 maanden" },
-                new SelectListItem { Value = "4", Text = "ziekte 3 weken" },
-                new SelectListItem { Value = "5", Text = "ziekenhuisopname" },
-                new SelectListItem { Value = "6", Text = "huwelijk/geregistreerd partnerschap" },
-                new SelectListItem { Value = "7", Text = "ontslag/fpu/pensionering" },
-                new SelectListItem { Value = "8", Text = "50e verjaardag" },
-                new SelectListItem { Value = "9", Text = "65e verjaardag" },
-                new SelectListItem { Value = "10", Text = "12,5 jaar huwelijk" },
-                new SelectListItem { Value = "11", Text = "12,5 jaar ambtenaar" },
-                new SelectListItem { Value = "12", Text = "25 jaar huwelijk" },
-                new SelectListItem { Value = "13", Text = "overlijden ambtenaar of huisgenoot" },
-                new SelectListItem { Value = "14", Text = "40 jaar ambtenaar" },
-                new SelectListItem { Value = "15", Text = "40 jarig huwelijk" },
-                new SelectListItem { Value = "20", Text = "Verjaardag" },
-                new SelectListItem { Value = "21", Text = "Trouwen" }
-            };
-
-            ViewBag.EmployeesList = employees;
-            ViewBag.Reasons = reasons;
+            //initialise viewbags
+            PopulateDropdownLists();
 
             return View();
         }
@@ -77,21 +71,8 @@
         {
             if (!ModelState.IsValid)
             {
-                // Herlaad ViewBag data
-                var employees = new List<SelectListItem>
-                {
-                    new SelectListItem { Value = "1", Text = "Alice Smith" },
-                    new SelectListItem { Value = "2", Text = "Bob Johnson" }
-                };
-
-                // Reasons
-                var reasons = _context.Reasons
-                .Select(r => new SelectListItem { Value = r.Id.ToString(), Text = r.Name })
-                .ToList();
-
-
-                ViewBag.EmployeesList = employees;
-                ViewBag.Reasons = reasons;
+                //initialise viewbags
+                PopulateDropdownLists();
 
                 foreach (var entry in ModelState)
                 {

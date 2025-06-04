@@ -20,25 +20,17 @@
 
     <div class="form-group mb-3">
         <label asp-for="SenderId" class="form-label">1. Aanvrager <span class="text-danger">*</span></label>
-        <input asp-for="SenderId" class="form-control" list="employeeList" placeholder="Zoek en selecteer aanvrager..." autocomplete="off" />
-        <datalist id="employeeList">
-            @foreach (var employee in (ViewBag.EmployeesList as List<SelectListItem>) ?? new List<SelectListItem>())
-            {
-                <option value="@employee.Value">@employee.Text</option>
-            }
-        </datalist>
+        <select asp-for="SenderId" class="form-control" asp-items="ViewBag.Employees">
+            <option disabled value="">-- Kies Aanvrager --</option>
+        </select>
         <span asp-validation-for="SenderId" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-3">
         <label asp-for="RecipientId" class="form-label">2. Ontvanger <span class="text-danger">*</span></label>
-        <input asp-for="RecipientId" class="form-control" list="employeeListRecipient" placeholder="Zoek en selecteer ontvanger..." autocomplete="off" />
-        <datalist id="employeeListRecipient">
-            @foreach (var employee in (ViewBag.EmployeesList as List<SelectListItem>) ?? new List<SelectListItem>())
-            {
-                <option value="@employee.Value">@employee.Text</option>
-            }
-        </datalist>
+        <select asp-for="RecipientId" class="form-control" asp-items="ViewBag.Employees">
+            <option disabled value="">-- Kies Ontvanger --</option>
+        </select>
         <span asp-validation-for="RecipientId" class="text-danger"></span>
     </div>
 
