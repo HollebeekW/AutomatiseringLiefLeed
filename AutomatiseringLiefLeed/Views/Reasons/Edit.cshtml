@@ -1,0 +1,49 @@
+﻿@model AutomatiseringLiefLeed.Models.Reason
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Reden: @Model.Name</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            @* <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div> *@
+            <div class="form-group">
+                <label asp-for="GiftAmount" class="control-label">Geldbedrag</label>
+                <input asp-for="GiftAmount" class="form-control" type="number" step="0.1"/>
+                <span asp-validation-for="GiftAmount" class="text-danger"></span>
+            </div>
+            @* <div class="form-group">
+                <label asp-for="IsAnniversary" class="control-label"></label>
+                <input asp-for="IsAnniversary" class="form-control" />
+                <span asp-validation-for="IsAnniversary" class="text-danger"></span>
+            </div> *@
+            @* <div class="form-group">
+                <label asp-for="AnniversaryYears" class="control-label"></label>
+                <input asp-for="AnniversaryYears" class="form-control" />
+                <span asp-validation-for="AnniversaryYears" class="text-danger"></span>
+            </div> *@
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Opslaan" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Terug naar Overzicht</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
