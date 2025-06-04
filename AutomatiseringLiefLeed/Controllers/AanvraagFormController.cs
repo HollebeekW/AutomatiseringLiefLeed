@@ -30,14 +30,16 @@
                 {
                     Value = e.Id.ToString(),
                     Text = e.Roepnaam + " " + e.Achternaam
-                });
+                })
+                .ToList();
 
             var reasons = _context.Reasons
                 .Select(r => new SelectListItem
                 {
                     Value = r.Id.ToString(),
                     Text = r.Name + " (€" + r.GiftAmount.ToString() + ")" //Ugly formatting, but it works
-                });
+                })
+                .ToList();
 
             ViewBag.Employees = employees;
             ViewBag.Reasons = reasons;
@@ -69,21 +71,11 @@
         [Authorize]
         public async Task<IActionResult> Create(Application model)
         {
+            //initialise viewbags
+            PopulateDropdownLists();
+
             if (!ModelState.IsValid)
             {
-                //initialise viewbags
-                PopulateDropdownLists();
-
-                foreach (var entry in ModelState)
-                {
-                    foreach (var error in entry.Value.Errors)
-                    {
-                        Console.WriteLine($"{entry.Key}: {error.ErrorMessage}");
-                        Console.WriteLine($"ReasonId: {model.ReasonId}");
-                    }
-                }
-                Console.WriteLine($"ReasonId: {model.ReasonId}");
-
                 return View(model); // toon formulier opnieuw bij fout
             }
 
@@ -94,8 +86,6 @@
             await _context.SaveChangesAsync();
 
             TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
-
-
 
             return RedirectToAction("Success");
         }

@@ -11,9 +11,9 @@
     @* <tr><th>Aanvrager Naam</th><td>@Model.SenderName</td></tr> *@
     <tr><th>Ontvanger Id</th><td>@Model.RecipientId</td></tr>
     @* <tr><th>Ontvanger Naam</th><td>@Model.RecipientName</td></tr> *@
-    <tr><th>Datum aanvraag</th><td>@Model.DateOfApplication.ToShortDateString()</td></tr>
+    <@* tr><th>Datum aanvraag</th><td>@Model.DateOfApplication.ToShortDateString()</td></tr>
     <tr><th>Datum uitgifte</th><td>@Model.DateOfIssue.ToShortDateString()</td></tr>
-    <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted ? "Ja" : "Nee")</td></tr>
+    <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted ? "Ja" : "Nee")</td></tr> *@
     <tr><th>Reden</th><td>@(Model.Reason != null ? Model.Reason.Name : Model.ReasonId.ToString())</td></tr>
 </table>
 

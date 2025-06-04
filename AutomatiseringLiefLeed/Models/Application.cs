@@ -5,35 +5,31 @@ namespace AutomatiseringLiefLeed.Models
 {
     public class Application
     {
-        [Required]
         public int Id { get; set; }
 
         [Required]
-        public int SenderId { get; set; } // FK to Employee
+        public int? SenderId { get; set; }
 
         [ForeignKey("SenderId")]
-        public virtual Employee Sender { get; set; } = null!;
+        public virtual Employee? Sender { get; set; } = null!;
 
         [Required]
-        public int RecipientId { get; set; }
+        public int? RecipientId { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime DateOfApplication { get; set; } = DateTime.Now;
-
-        [Required]
-        [DataType(DataType.Date)]
-        public DateTime DateOfIssue { get; set; }
-
-        [Required]
-        public bool IsAccepted { get; set; }
-
-        [Required]
-        public int ReasonId { get; set; }
+        public int? ReasonId { get; set; }
 
         [ForeignKey("ReasonId")]
         public virtual Reason? Reason { get; set; }
 
-        public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime? DateOfIssue { get; set; }
+
+        public DateTime? DateOfApplication { get; set; }
+
+        public bool? IsAccepted { get; set; }
+
+        public virtual ICollection<Note>? Notes { get; set; } = new List<Note>();
     }
 }
