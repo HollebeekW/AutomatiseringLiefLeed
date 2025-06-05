@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     /// <summary>
     /// Defines the <see cref="AanvraagFormController" />
@@ -82,10 +83,56 @@
             model.DateOfApplication = DateTime.Now;
             model.IsAccepted = false;
 
-            _context.Applications.Add(model);
-            await _context.SaveChangesAsync();
+            //check if applicant and sender are different,
+            if (model.SenderId == model.RecipientId)
+            {
+                TempData["ErrorMessage"] = "Aanvrager en ontvanger kunnen niet hetzelfde zijn!";
+                return View(model);
+            }
 
-            TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
+            var reason = await _context.Reasons.FindAsync(model.ReasonId);
+            if (reason == null)
+            {
+                ModelState.AddModelError("ReasonId", "Reason not found!");
+                return View(model);
+            }
+
+            var employee = await _context.Employees.FindAsync(model.RecipientId);
+
+            bool isAnniversary = reason.IsAnniversary ?? false; //in case of error, revert to manual check
+            
+            if (reason.IsAnniversary == true)
+            {
+                var anniversaryDate = new DateOnly();
+                var name = reason.Name?.ToLowerInvariant();
+
+                if (name != null && name.Contains("verjaardag"))
+                {
+                    anniversaryDate = employee.GeboorteDatum;
+                }
+                else if (name != null && name.Contains("ambtenaar"))
+                {
+                    anniversaryDate = employee.InDienstIVMDienstJaren;
+                }
+                else
+                {
+                    anniversaryDate = employee.AOWDatum;
+                    if (model.DateOfIssue == anniversaryDate.ToDateTime(TimeOnly.MinValue))
+                    {
+                        model.IsAccepted = true;
+                        _context.Applications.Add(model);
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
+                    }
+                    else
+                    {
+                        TempData["ErrorMessage"] = "Error! Data komen niet overeen";
+                        return View(model);
+                    }
+                }
+            }
+
+            
 
             return RedirectToAction("Success");
         }
