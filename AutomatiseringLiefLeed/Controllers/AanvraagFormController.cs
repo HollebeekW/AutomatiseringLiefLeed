@@ -149,13 +149,12 @@
                 return View(model);
             }
 
-            //commented out for now for testing purposes
             //prevent ability to pick a past date
-            //if (model.DateOfIssue <  DateTime.Now)
-            //{
-            //    TempData["ErrorMessage"] = "Die datum is al verlopen";
-            //    return View(model);
-            //}
+            if (model.DateOfIssue <  DateTime.Now)
+            {
+                TempData["ErrorMessage"] = "Die datum is al verlopen";
+                return View(model);
+            }
 
             model.DateOfApplication = DateTime.Now;
             model.IsAccepted = false;
