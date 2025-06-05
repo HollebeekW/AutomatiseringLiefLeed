@@ -90,6 +90,14 @@
                 return View(model);
             }
 
+            //commented out for now for testing purposes
+
+            //if (model.DateOfIssue <  DateTime.Now)
+            //{
+            //    TempData["ErrorMessage"] = "Die datum is al verlopen";
+            //    return View(model);
+            //}
+
             var reason = await _context.Reasons.FindAsync(model.ReasonId);
             if (reason == null)
             {
@@ -103,21 +111,62 @@
             
             if (reason.IsAnniversary == true)
             {
-                var anniversaryDate = new DateOnly();
-                var name = reason.Name?.ToLowerInvariant();
+                var dateOfIssue = model.DateOfIssue.Value; //date of issuing
+                var anniversaryYears = reason.AnniversaryYears ?? 0; //amount of years, so for "50e verjaardag", value is 50
+                var anniversaryDate = DateTime.MinValue.Date; //date of anniversary
+                var name = reason.Name?.ToLowerInvariant(); //name of reason
 
                 if (name != null && name.Contains("verjaardag"))
                 {
-                    anniversaryDate = employee.GeboorteDatum;
+                    //1. Get employees date of birth
+                    var birthday = employee.GeboorteDatum.ToDateTime(TimeOnly.MinValue).Date;
+
+                    //2. Calculate date of anniverary by adding amount of years to the birthday
+                    //For example: birthday is on 01/01/1970, 50th anniversary will be on 1970+50 = 2020 so 01/01/2020
+                    //Calculated in months, to account for the 12.5 year anniversary (multiplied by 12 to convert back to years)
+                    var expectedAnniversary = birthday.AddMonths((int)(anniversaryYears * 12));
+
+                    //3. Check if dates are correct
+                    //if not, return an error
+                    if (expectedAnniversary != dateOfIssue)
+                    {
+                        TempData["ErrorMessage"] = "Error! Data komen niet overeen"; //todo: expand message, adding dates(?)
+                        return View(model);
+                    }
+
+                    //else, insert into database
+                    model.IsAccepted = true;
+                    _context.Applications.Add(model);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
                 }
+
                 else if (name != null && name.Contains("ambtenaar"))
                 {
-                    anniversaryDate = employee.InDienstIVMDienstJaren;
+                    //1. Get employees starting date
+                    var startingDate = employee.InDienstIVMDienstJaren.ToDateTime(TimeOnly.MinValue).Date;
+
+                    //2. Calculate date of anniversary by adding amount of years to starting date (same method as above)
+                    var expectedAnniversary = startingDate.AddMonths((int)(anniversaryYears * 12));
+
+                    //3. Check if dates are correct
+                    //if not, return an error
+                    if (expectedAnniversary != dateOfIssue)
+                    {
+                        TempData["ErrorMessage"] = "Error! Data komen niet overeen"; //todo: expand message, adding dates(?)
+                        return View(model);
+                    }
+
+                    //else, insert into database
+                    model.IsAccepted = true;
+                    _context.Applications.Add(model);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
                 }
                 else
                 {
-                    anniversaryDate = employee.AOWDatum;
-                    if (model.DateOfIssue == anniversaryDate.ToDateTime(TimeOnly.MinValue))
+                    anniversaryDate = employee.AOWDatum.ToDateTime(TimeOnly.MinValue).Date;
+                    if (model.DateOfIssue == anniversaryDate)
                     {
                         model.IsAccepted = true;
                         _context.Applications.Add(model);
