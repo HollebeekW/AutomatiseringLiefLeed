@@ -28,6 +28,8 @@ namespace AutomatiseringLiefLeed.Controllers
         {
             var applications = await _context.Applications
             .Include(a => a.Reason)
+            .Include(a => a.Sender)
+            .Include(a => a.Recipient)
             .OrderByDescending(a => a.DateOfApplication)
             .ToListAsync();
 
@@ -55,7 +57,7 @@ namespace AutomatiseringLiefLeed.Controllers
             application.IsAccepted = true;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ApplicationOverview));
         }
 
         // POST: /Admin/Reject/5
@@ -69,7 +71,7 @@ namespace AutomatiseringLiefLeed.Controllers
             application.IsAccepted = false;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ApplicationOverview));
         }
 
         // POST: /Admin/AddNote

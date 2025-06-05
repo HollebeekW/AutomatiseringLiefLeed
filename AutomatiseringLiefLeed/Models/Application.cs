@@ -16,6 +16,9 @@ namespace AutomatiseringLiefLeed.Models
         [Required]
         public int? RecipientId { get; set; }
 
+        [ForeignKey("RecipientId")]
+        public virtual Employee? Recipient { get; set; } = null!;
+
         [Required]
         public int? ReasonId { get; set; }
 
