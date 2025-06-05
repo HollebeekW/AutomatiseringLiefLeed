@@ -73,7 +73,7 @@
 
             var dateOfIssue = model.DateOfIssue?.Date ?? DateTime.MinValue; //issuing date
             double anniversaryYears = reason.AnniversaryYears ?? 0; //amount of years
-            string name = reason.Name?.ToLowerInvariant() ?? ""; //get reason name and set to all lowercaps, to filter out what type of anniversary to use
+            string name = reason.Name?.ToLowerInvariant() ?? ""; //get reason name and set to all lowercase, to filter out what type of anniversary to use
 
             DateTime expectedDate; //expected date of anniversary
 
