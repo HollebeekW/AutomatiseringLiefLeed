@@ -1,5 +1,6 @@
 ﻿using AutomatiseringLiefLeed.Data;
 using AutomatiseringLiefLeed.Models;
+using AutomatiseringLiefLeed.Services.Email;
 using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace AutomatiseringLiefLeed.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         // GET: /Admin/
@@ -59,11 +62,26 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Approve(int id)
         {
-            var application = await _context.Applications.FindAsync(id);
+            var application = await _context.Applications
+                .Include(a => a.Sender)
+                .Include(a => a.Reason)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (application == null) return NotFound();
 
             application.IsAccepted = true;
             await _context.SaveChangesAsync();
+
+            //Send email
+            if (application.Sender != null && application.Reason != null)
+            {
+                _emailService.SendApplicationApprovedEmail(
+                    application.Sender.EmailWerk,
+                    $"{application.Sender.Roepnaam} {application.Sender.Achternaam}",
+                    application.Reason.Name,
+                    application.DateOfApplication?.ToString("dd-MM-yyyy") ?? "Onbekende datum"
+                );
+            }
 
             return RedirectToAction(nameof(ApplicationOverview));
         }
@@ -73,14 +91,26 @@ namespace AutomatiseringLiefLeed.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Reject(int id)
         {
-            var application = await _context.Applications.FindAsync(id);
+            var application = await _context.Applications
+                .Include(a => a.Sender)
+                .Include(a => a.Reason)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (application == null) return NotFound();
 
-            //application.IsAccepted = false;
-
-            //instead, delete application
             _context.Applications.Remove(application);
             await _context.SaveChangesAsync();
+
+            //Send email
+            if (application.Sender != null && application.Reason != null)
+            {
+                _emailService.SendApplicationRejectedEmail(
+                    application.Sender.EmailWerk,
+                    $"{application.Sender.Roepnaam} {application.Sender.Achternaam}",
+                    application.Reason.Name,
+                    application.DateOfApplication?.ToString("dd-MM-yyyy")
+                );
+            }
 
             return RedirectToAction(nameof(ApplicationOverview));
         }
