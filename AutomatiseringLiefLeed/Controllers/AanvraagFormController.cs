@@ -23,7 +23,8 @@
         /// </summary>
         /// <param name="context">The context<see cref="ApplicationDbContext"/></param>
         /// <param name="afasService">The afasService<see cref="AFASService"/></param>
-        
+
+        //Populate dropdown lists in form, from database
         private void PopulateDropdownLists()
         {
             var employees = _context.Employees
@@ -42,6 +43,7 @@
                 })
                 .ToList();
 
+            //Bind to viewbags
             ViewBag.Employees = employees;
             ViewBag.Reasons = reasons;
         }
@@ -69,7 +71,7 @@
 
             //retrieve whether the selected reason is an anniversary
             //defaulted to false, to force a manual check in case of any error(s)
-            bool isAnniversary = reason.IsAnniversary ?? false; 
+            bool isAnniversary = reason.IsAnniversary ?? false; //possibly unnecessary(?) leaving in for now
 
             var dateOfIssue = model.DateOfIssue?.Date ?? DateTime.MinValue; //issuing date
             double anniversaryYears = reason.AnniversaryYears ?? 0; //amount of years
@@ -142,7 +144,7 @@
                 return View(model); // toon formulier opnieuw bij fout
             }
 
-            //check if applicant and sender are different,
+            //check if applicant and sender are different
             if (model.SenderId == model.RecipientId)
             {
                 TempData["ErrorMessage"] = "Aanvrager en ontvanger kunnen niet hetzelfde zijn!";
