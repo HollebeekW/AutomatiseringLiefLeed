@@ -24,5 +24,8 @@ namespace AutomatiseringLiefLeed.Models
 
         [Required]
         public DateOnly InDienstIVMDienstJaren { get; set; }
+
+        // Navigation property
+        public virtual ICollection<Application> Applications { get; set; } = new List<Application>();
     }
 }

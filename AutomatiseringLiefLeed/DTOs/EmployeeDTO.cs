@@ -19,6 +19,7 @@ namespace AutomatiseringLiefLeed.DTOs
         [XmlElement("E-mail_werk")]
         public string? EmailWerk { get; set; }
 
+        [XmlElement("Geboortedatum")]
         public DateTime? GeboorteDatum { get; set; }
 
         [XmlElement("AOW-datum")]

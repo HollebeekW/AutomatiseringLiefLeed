@@ -27,9 +27,11 @@ namespace AutomatiseringLiefLeed.Controllers
         public async Task<IActionResult> ApplicationOverview()
         {
             var applications = await _context.Applications
-            .Include(a => a.Reason)
-            .OrderByDescending(a => a.DateOfApplication)
-            .ToListAsync();
+                .Include(a => a.Reason)
+                .Include(a => a.Sender)
+                .Include(a => a.Recipient)
+                .OrderByDescending(a => a.DateOfApplication)
+                .ToListAsync();
 
 
             //return View(requests);
@@ -39,7 +41,15 @@ namespace AutomatiseringLiefLeed.Controllers
         // GET: /Admin/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            var application = await _context.Applications.FindAsync(id);
+            var application = await _context.Applications
+                .Include(a => a.Sender)
+                .Include(a => a.Recipient)
+                .Include(a => a.Reason)
+                .Include(a => a.Notes) // if you're also displaying notes
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            if (application == null)
+                return NotFound();
 
             return View(application);
         }
@@ -55,7 +65,7 @@ namespace AutomatiseringLiefLeed.Controllers
             application.IsAccepted = true;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ApplicationOverview));
         }
 
         // POST: /Admin/Reject/5
@@ -66,10 +76,13 @@ namespace AutomatiseringLiefLeed.Controllers
             var application = await _context.Applications.FindAsync(id);
             if (application == null) return NotFound();
 
-            application.IsAccepted = false;
+            //application.IsAccepted = false;
+
+            //instead, delete application
+            _context.Applications.Remove(application);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ApplicationOverview));
         }
 
         // POST: /Admin/AddNote

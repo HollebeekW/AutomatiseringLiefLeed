@@ -25,11 +25,11 @@
             {
                 <tr>
                     <td>@app.Id</td>
-                    <td>@app.SenderId</td>
-                    <td>@app.RecipientId</td>
-                    <td>@app.DateOfApplication.ToShortDateString()</td>
-                    <td>@app.DateOfIssue.ToShortDateString()</td>
-                    <td>@(app.IsAccepted ? "Ja" : "Nee")</td>
+                    <td>@(app.Sender != null ? app.Sender.Roepnaam + " " + app.Sender.Achternaam : app.SenderId.ToString())</td>
+                    <td>@(app.Recipient != null ? app.Recipient.Roepnaam + " " + app.Recipient.Achternaam : app.RecipientId.ToString())</td>
+                    <td>@app.DateOfApplication?.ToString("dd-MM-yyyy")</td>
+                    <td>@app.DateOfIssue?.ToString("dd-MM-yyyy")</td>
+                    <td>@(app.IsAccepted == true ? "Ja" : "Nee")</td>
                     <td>@(app.Reason != null ? app.Reason.Name : app.ReasonId.ToString())</td>
                     <td>
                         @Html.ActionLink("Bekijken", "Details", new { id = app.Id }, new { @class = "btn btn-primary btn-sm" })
