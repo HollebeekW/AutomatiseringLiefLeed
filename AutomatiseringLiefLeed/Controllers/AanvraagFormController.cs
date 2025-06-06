@@ -3,10 +3,10 @@
     using global::AutomatiseringLiefLeed.Data;
     using global::AutomatiseringLiefLeed.Models;
     using global::AutomatiseringLiefLeed.Services;
+    using global::AutomatiseringLiefLeed.Services.Email;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
 
     /// <summary>
     /// Defines the <see cref="AanvraagFormController" />
@@ -17,6 +17,8 @@
         private readonly ApplicationDbContext _context;
 
         private readonly AFASService _afasService;
+
+        private readonly IEmailService _emailService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AanvraagFormController"/> class.
@@ -109,10 +111,11 @@
             return true;
         }
 
-        public AanvraagFormController(ApplicationDbContext context, AFASService afasService) // Updated constructor
+        public AanvraagFormController(ApplicationDbContext context, AFASService afasService, IEmailService emailService) // Updated constructor
         {
             _context = context;
             _afasService = afasService; // Initialize the missing service
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -170,6 +173,28 @@
             //save to database
             _context.Applications.Add(model);
             await _context.SaveChangesAsync();
+
+            //load related data
+            await _context.Entry(model).Reference(m => m.Recipient).LoadAsync();
+            await _context.Entry(model).Reference(m => m.Reason).LoadAsync();
+
+            //find relevant employee
+            var employee = await _context.Employees.FindAsync(model.SenderId);
+
+            //return error if any field is null (shouldn't happen, but just in case)
+            if (employee == null || model.Recipient == null || model.Reason == null || model.DateOfApplication == null)
+            {
+                TempData["ErrorMessage"] = "Fout bij het versturen van de e-mail: ontbrekende gegevens.";
+                return View(model);
+            }
+            
+            //send email
+            _emailService.SendApplicationSubmittedEmail(
+                employee.EmailWerk,
+                $"{model.Recipient.Roepnaam} {model.Recipient.Achternaam}",
+                model.Reason.Name,
+                model.DateOfApplication.Value.ToString("dd-MM-yyyy")
+            );
 
             //redirect to next view, along with success message
             TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
