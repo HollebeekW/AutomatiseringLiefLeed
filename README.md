@@ -37,3 +37,12 @@ cd AutomatiseringLiefLeed
 Hans Pieters - [h.pieters@gemeentealmere.nl](mailto:h.pieters@gemeentealmere.nl)
 
 Projectlink: [https://github.com/jouw-gebruikersnaam/lief-leed-automatisering](https://github.com/jouw-gebruikersnaam/lief-leed-automatisering)
+
+## Email testing
+!!! Deze branch niet mergen met main !!!
+
+Om de email functionaliteit te testen (zelf is er gebruik gemaakt van mailtrap.io):
+1. ga naar mailtrap.io en maak een account aan.
+2. Ga naar Sandbox -> Inboxes -> Add Inbox.
+3. Onder SMTP staan een Username en Password. Ga in het project naar `appsettings.json` -> `"SmtpSettings"` en vul deze Username en Password in, bij respectievelijk `"Username:"` en `"Password:"`.
+4. Build het project. Bij het aanmaken van een aanvraag en bij goed- en afkeuring wordt een email verzonden naar de inbox op mailtrap.io (alle emails gaan naar dezelfde inbox, ongeacht email-adres).
