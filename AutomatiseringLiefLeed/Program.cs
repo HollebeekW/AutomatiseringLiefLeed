@@ -1,6 +1,7 @@
 using AutomatiseringLiefLeed.Data;
 using AutomatiseringLiefLeed.Models;
 using AutomatiseringLiefLeed.Services;
+using AutomatiseringLiefLeed.Services.Email;
 using LiefLeedAutomatisering.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,10 @@ namespace AutomatiseringLiefLeed
             //  AFAS Service
             builder.Services.AddHttpClient<AFASService>();
             builder.Services.AddScoped<AFASService>();
+
+            //Email Service Configuration
+            builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("SmtpSettings"));
+            builder.Services.AddTransient<IEmailService, EmailService>();
 
             //Employee import service
             builder.Services.AddScoped<EmployeeImportService>();
