@@ -7,23 +7,22 @@
 
 <table class="table">
     <tr><th>Id</th><td>@Model.Id</td></tr>
-    <tr><th>Aanvrager Id</th><td>@Model.SenderId</td></tr>
-    @* <tr><th>Aanvrager Naam</th><td>@Model.SenderName</td></tr> *@
-    <tr><th>Ontvanger Id</th><td>@Model.RecipientId</td></tr>
-    @* <tr><th>Ontvanger Naam</th><td>@Model.RecipientName</td></tr> *@
-    <tr><th>Datum aanvraag</th><td>@Model.DateOfApplication.ToShortDateString()</td></tr>
-    <tr><th>Datum uitgifte</th><td>@Model.DateOfIssue.ToShortDateString()</td></tr>
-    <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted ? "Ja" : "Nee")</td></tr>
+    @* <tr><th>Aanvrager Id</th><td>@Model.SenderId</td></tr> --Not needed*@
+    <tr><th>Aanvrager Naam</th><td>@(Model.Sender.Roepnaam + " " + @Model.Sender.Achternaam)</td></tr>
+    @* <tr><th>Ontvanger Id</th><td>@Model.RecipientId</td></tr> --Not needed*@
+    <tr><th>Ontvanger Naam</th><td>@(Model.Recipient.Roepnaam + " " + @Model.Recipient.Achternaam)</td></tr>
+    <tr><th>Datum aanvraag</th><td>@Model.DateOfApplication?.ToString("dd-MM-yyyy")</td></tr>
+    <tr><th>Datum uitgifte</th><td>@Model.DateOfIssue?.ToString("dd-MM-yyyy")</td></tr>
+    <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted == true ? "Ja" : "Nee")</td></tr>
     <tr><th>Reden</th><td>@(Model.Reason != null ? Model.Reason.Name : Model.ReasonId.ToString())</td></tr>
 </table>
-
 
 <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
     <button type="submit" class="btn btn-success">Goedkeuren</button>
 </form>
 
-<form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="d-inline">
-    <button type="submit" class="btn btn-danger">Afkeuren</button>
+<form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="d-inline" onsubmit="return confirm('Weet je zeker dat je deze aanvraag wilt verwijderen?');">
+    <button type="submit" class="btn btn-danger">Afkeuren en verwijderen</button>
 </form>
 
 <hr />
