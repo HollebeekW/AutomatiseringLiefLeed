@@ -1,49 +1,78 @@
-﻿@model List<AutomatiseringLiefLeed.Models.Application>
+﻿@model IEnumerable<AutomatiseringLiefLeed.Models.Application>
 @{
-    ViewBag.Title = "Admin Dashboard - Aanvragen";
+    ViewBag.Title = "Admin Dashboard – overzicht aanvragen";
+    int? selectedYear = ViewBag.SelectedYear as int?;
+    int? selectedReason = ViewBag.SelectedReason as int?;
+    string? q = ViewBag.SearchTerm as string;
+    var total = (decimal?)ViewBag.Total ?? 0m;
+    string selectedStatus = Context.Request.Query["status"].ToString();
 }
 
-<h2>Aanvraagoverzicht</h2>
+<h2 class="mb-3">Overzicht aanvragen</h2>
 
+@* 2. Filterbalk *@
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <select name="status" class="form-select" onchange="this.form.submit()">
+            <option value="">Status</option>
+            <option value="goedgekeurd" selected="@(selectedStatus == "goedgekeurd" ? "selected" : null)">Goedgekeurd</option>
+            <option value="afgewezen" selected="@(selectedStatus == "afgewezen" ? "selected" : null)">Afgewezen</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </div>
+</form>
+
+@* 3. Resultaat­tabel *@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Aanvrager</th>
-            <th>Ontvanger</th>
-            <th>Datum aanvraag</th>
             <th>Datum uitgifte</th>
-            <th>Geaccepteerd</th>
+            <th>Aanvrager ID</th>
+            <th>Ontvanger ID</th>
             <th>Reden</th>
-            <th>Acties</th>
+            <th>Status</th>
+            <th class="text-end">Bedrag</th>
+            <th class="text-end">Acties</th>
         </tr>
     </thead>
     <tbody>
-        @if (Model != null && Model.Any())
+        @if (Model.Any())
         {
-            foreach (var app in Model)
+            foreach (var row in Model)
             {
                 <tr>
-                    <td>@app.Id</td>
-                    <td>@app.SenderId</td>
-                    <td>@app.RecipientId</td>
-                    <td>@app.DateOfApplication.ToShortDateString()</td>
-                    <td>@app.DateOfIssue.ToShortDateString()</td>
-                    <td>@(app.IsAccepted ? "Ja" : "Nee")</td>
-                    <td>@(app.Reason != null ? app.Reason.Name : app.ReasonId.ToString())</td>
+                    <td>@row.DateOfIssue.ToString("dd-MM-yyyy")</td>
+                    <td>@row.SenderId</td>
+                    <td>@row.RecipientId</td>
+                    <td>@row.Reason?.Name</td>
                     <td>
-                        @Html.ActionLink("Bekijken", "Details", new { id = app.Id }, new { @class = "btn btn-primary btn-sm" })
+                        @(row.IsAccepted ? "Goedgekeurd" : "Afgewezen")
+                    </td>
+                    <td class="text-end">€@((decimal)(row.Reason?.GiftAmount ?? 0))</td>
+                    <td class="text-end">
+                        <a asp-action="Details"
+                           asp-route-id="@row.Id"
+                           class="btn btn-sm btn-primary">
+                            Bekijken
+                        </a>
                     </td>
                 </tr>
             }
         }
         else
         {
-            <tr>
-                <td colspan="8" class="text-center">Geen aanvragen gevonden.</td>
-            </tr>
+            <tr><td colspan="6" class="text-center">Geen aanvragen gevonden.</td></tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" class="text-end"></th>
+            <th class="text-end"></th>
+            <th></th>
+        </tr>
+    </tfoot>
 </table>
-<br />
-<a href="~/Admin/Index" class="btn btn-secondary mb-3">Terug naar dashboard</a>
+
+<a asp-action="Index" asp-controller="Admin" class="btn btn-secondary">Terug naar dashboard</a>

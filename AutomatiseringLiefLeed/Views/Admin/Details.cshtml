@@ -1,4 +1,5 @@
 ﻿@model AutomatiseringLiefLeed.Models.Application
+@using AutomatiseringLiefLeed.Models
 @{
     ViewBag.Title = "Details aanvraag";
 }
@@ -14,7 +15,9 @@
     <tr><th>Datum aanvraag</th><td>@Model.DateOfApplication.ToShortDateString()</td></tr>
     <tr><th>Datum uitgifte</th><td>@Model.DateOfIssue.ToShortDateString()</td></tr>
     <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted ? "Ja" : "Nee")</td></tr>
+    <tr><th>Bedrag</th><td>@(Model.Reason?.GiftAmount != null ? $"€{Model.Reason.GiftAmount:0.00}" : "")</td></tr>
     <tr><th>Reden</th><td>@(Model.Reason != null ? Model.Reason.Name : Model.ReasonId.ToString())</td></tr>
+    <tr><th>Opmerking</th><td>@(Model.Notes != null && Model.Notes.Any() ? Model.Notes.Last().Text : "Geen opmerking toegevoegd")</td></tr>
 </table>
 
 
@@ -31,7 +34,7 @@
 <form asp-action="AddNote" method="post">
     <input type="hidden" name="id" value="@Model.Id" />
     <div class="mb-3">
-        <textarea name="note" class="form-control" rows="3" placeholder="Typ hier je opmerking..."></textarea>
+        <textarea name="note" class="form-control" rows="3" placeholder="Typ hier je opmerking..." re></textarea>
     </div>
     <button type="submit" class="btn btn-primary">Opslaan</button>
 </form>
@@ -56,4 +59,4 @@ else
     <p>Er zijn nog geen notities toegevoegd.</p>
 }
 
-<a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
+<a asp-action="ApplicationOverview" asp-controller="Admin" class="btn btn-secondary">Terug naar aanvragen overzicht</a>
