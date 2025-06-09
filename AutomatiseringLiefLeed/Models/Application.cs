@@ -9,7 +9,7 @@ namespace AutomatiseringLiefLeed.Models
         public int Id { get; set; }
 
         [Required]
-        public string SenderId { get; set; } // AFAS aanvrager
+        public string SenderId { get; set; }
 
         [Required]
         public string RecipientId { get; set; }
