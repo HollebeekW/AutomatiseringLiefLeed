@@ -147,12 +147,22 @@
             //check if applicant and sender are different
             if (model.SenderId == model.RecipientId)
             {
-                TempData["ErrorMessage"] = "Aanvrager en ontvanger kunnen niet hetzelfde zijn!";
+                TempData["ErrorMessage"] = "U kunt geen aanvraag indienen voor uzelf. Kies een andere ontvanger.";
                 return View(model);
+            } else
+            {
+                //check if recipient is a valid employee
+                var recipient = await _context.Employees.FindAsync(model.RecipientId);
+                if (recipient == null)
+                {
+                    TempData["ErrorMessage"] = "De geselecteerde ontvanger bestaat niet.";
+                    return View(model);
+                }
             }
 
+
             //prevent ability to pick a past date
-            if (model.DateOfIssue <  DateTime.Now)
+            if (model.DateOfIssue < DateTime.Now)
             {
                 TempData["ErrorMessage"] = "Die datum is al verlopen";
                 return View(model);

@@ -8,7 +8,7 @@ namespace AutomatiseringLiefLeed.Models
         public int Id { get; set; }
 
         [Required]
-        public string SenderId { get; set; }
+        public int SenderId { get; set; }
 
         [ForeignKey("SenderId")]
         public virtual Employee? Sender { get; set; } = null!;

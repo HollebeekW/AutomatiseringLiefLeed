@@ -17,7 +17,7 @@ namespace LiefLeedAutomatisering.Services
         public async Task ImportFromXmlAsync(string xml)
         {
             var data = XmlHelper.DeserialiseEmployees(xml);
-            var existingMedewerkers = new HashSet<int>(_context.Employees.Select(e => e.Medewerker));
+            var existingMedewerkers = new HashSet<int>(_context.Employees.Select(e => e.Medewerker).ToList());
 
             //convert datetime to date only
             DateOnly? ToDateOnly(DateTime? dt) => dt.HasValue ? DateOnly.FromDateTime(dt.Value) : (DateOnly?)null;

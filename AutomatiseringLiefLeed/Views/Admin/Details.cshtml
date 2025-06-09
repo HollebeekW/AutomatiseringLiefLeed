@@ -17,13 +17,57 @@
     <tr><th>Reden</th><td>@(Model.Reason != null ? Model.Reason.Name : Model.ReasonId.ToString())</td></tr>
 </table>
 
-<form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
-    <button type="submit" class="btn btn-success">Goedkeuren</button>
-</form>
+<!-- Trigger modal for approve -->
+<button type="button" class="btn btn-success d-inline" data-bs-toggle="modal" data-bs-target="#approveModal">
+    Goedkeuren
+</button>
 
-<form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="d-inline" onsubmit="return confirm('Weet je zeker dat je deze aanvraag wilt verwijderen?');">
-    <button type="submit" class="btn btn-danger">Afkeuren en verwijderen</button>
-</form>
+<!-- Trigger modal for reject -->
+<button type="button" class="btn btn-danger d-inline" data-bs-toggle="modal" data-bs-target="#rejectModal">
+    Afkeuren en verwijderen
+</button>
+
+<!-- Approve Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1" aria-labelledby="approveModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="approveModalLabel">Weet je het zeker?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Sluiten"></button>
+      </div>
+      <div class="modal-body">
+        Weet je zeker dat je deze aanvraag wilt goedkeuren?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nee</button>
+        <form asp-action="Approve" asp-route-id="@Model.Id" method="post" class="d-inline">
+            <button type="submit" class="btn btn-success">Ja, goedkeuren</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal fade" id="rejectModal" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="rejectModalLabel">Weet je het zeker?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Sluiten"></button>
+      </div>
+      <div class="modal-body">
+        Weet je zeker dat je deze aanvraag wilt verwijderen?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nee</button>
+        <form asp-action="Reject" asp-route-id="@Model.Id" method="post" class="d-inline">
+            <button type="submit" class="btn btn-danger">Ja, verwijder</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <hr />
 <h4>Voeg een opmerking toe</h4>
@@ -56,3 +100,5 @@ else
 }
 
 <a asp-action="Index" class="btn btn-secondary">Terug naar overzicht</a>
+
+<!-- Bootstrap 5 modal requires JS bundle, ensure it's included in your layout or page -->
