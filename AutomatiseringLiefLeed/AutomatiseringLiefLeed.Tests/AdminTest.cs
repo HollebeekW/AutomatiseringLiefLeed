@@ -29,8 +29,8 @@ namespace AutomatiseringLiefLeed.AutomatiseringLiefLeed.Tests
                 {
                     Id = 1,
                     IsAccepted = false,
-                    SenderId = "1",
-                    RecipientId = "2"
+                    SenderId = 1,
+                    RecipientId = 2
                 });
                 context.SaveChanges();
             }
