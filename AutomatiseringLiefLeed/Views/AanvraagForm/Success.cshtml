@@ -2,6 +2,15 @@
     ViewData["Title"] = "Aanvraag ingediend";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <div class="container mt-5 text-center">
     <h2>Bedankt voor uw aanvraag!</h2>
     <p>

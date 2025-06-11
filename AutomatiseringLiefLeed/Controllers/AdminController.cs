@@ -3,6 +3,7 @@ using AutomatiseringLiefLeed.Models;
 using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomatiseringLiefLeed.Controllers
@@ -24,18 +25,29 @@ namespace AutomatiseringLiefLeed.Controllers
         }
 
         // ApplicationOverview view
-        public async Task<IActionResult> ApplicationOverview()
+        public async Task<IActionResult> ApplicationOverview(string sortOrder)
         {
-            var applications = await _context.Applications
+
+            ViewBag.currentSort = sortOrder;
+
+            var applications = _context.Applications
                 .Include(a => a.Reason)
                 .Include(a => a.Sender)
                 .Include(a => a.Recipient)
-                .OrderByDescending(a => a.DateOfApplication)
-                .ToListAsync();
+                .AsQueryable();
 
+            //sorting
+            applications = sortOrder switch
+            {
+                "sender" => applications.OrderBy(a => a.Sender.Roepnaam),
+                "recipient" => applications.OrderBy(a => a.Recipient.Roepnaam),
+                "reason" => applications.OrderBy(a => a.Reason.Name),
+                "status" => applications.OrderByDescending(a => a.IsAccepted),
+                _ => applications.OrderByDescending(a => a.DateOfApplication)
+            };
 
-            //return View(requests);
-            return View(applications);
+            ViewBag.CurrentSort = sortOrder;
+            return View(await applications.ToListAsync());
         }
 
         // GET: /Admin/Details/5
