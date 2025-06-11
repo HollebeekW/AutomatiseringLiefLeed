@@ -84,7 +84,7 @@
             //in months, to account for 12.5th anniversary --> multiplied by 12 to convert back to years
             if (name.Contains("verjaardag"))
             {
-                expectedDate = employee.GeboorteDatum.ToDateTime(TimeOnly.MinValue).AddMonths((int)(anniversaryYears * 12));
+                expectedDate = employee.GeboorteDatum.ToDateTime(TimeOnly.MinValue).AddMonths((int)(anniversaryYears * 12)); 
             }
             else if (name.Contains("ambtenaar"))
             {
