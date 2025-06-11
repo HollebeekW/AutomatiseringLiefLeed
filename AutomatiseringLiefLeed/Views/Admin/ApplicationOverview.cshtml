@@ -5,6 +5,19 @@
 
 <h2>Aanvraagoverzicht</h2>
 
+<!-- Sorting -->
+<form asp-action="ApplicationOverview" method="get" class="mb-3">
+    <label for="sortOrder">Sorteren op:</label>
+    <select id="sortOrder" name="sortOrder" class="form-control d-inline-block w-auto ml-2" onchange="this.form.submit()">
+        <option value="date" selected="@(ViewBag.CurrentSort == "date" || ViewBag.CurrentSort == null)">Datum van aanvraag</option>
+        <option value="sender" selected="@(ViewBag.CurrentSort == "sender")">Aanvrager</option>
+        <option value="recipient" selected="@(ViewBag.CurrentSort == "recipient")">Ontvanger</option>
+        <option value="reason" selected="@(ViewBag.CurrentSort == "reason")">Reden</option>
+        <option value="status" selected="@(ViewBag.CurrentSort == "status")">Status</option>
+    </select>
+</form>
+<!-- End sorting -->
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
