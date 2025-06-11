@@ -16,31 +16,11 @@ namespace AutomatiseringLiefLeed.Data
         public DbSet<Reason> Reasons { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Request> Requests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
             base.OnModelCreating(builder);
-
-            //relationships between tables
-            builder.Entity<Request>()
-                .HasOne(r => r.Sender)
-                .WithMany()
-                .HasForeignKey(r => r.SenderId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Request>()
-                .HasOne(r => r.Recipient)
-                .WithMany()
-                .HasForeignKey(r => r.RecipientId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Request>()
-                .HasOne(r => r.Reason)
-                .WithMany()
-                .HasForeignKey(r => r.ReasonId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Application>()
                 .HasOne(a => a.Sender)
