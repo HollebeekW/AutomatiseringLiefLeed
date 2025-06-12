@@ -24,7 +24,7 @@
     </div>
 </form>
 
-@* 3. Resultaat­tabel *@
+
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
@@ -43,10 +43,12 @@
             foreach (var row in Model)
             {
                 <tr>
-                    <td>@row.DateOfIssue.ToString("dd-MM-yyyy")</td>
-                    <td>@row.SenderId</td>
-                    <td>@row.RecipientId</td>
-                    <td>@row.Reason?.Name</td>
+                    <td>@(app.Sender != null ? app.Sender.Roepnaam + " " + app.Sender.Achternaam : app.SenderId.ToString())</td>
+                    <td>@(app.Recipient != null ? app.Recipient.Roepnaam + " " + app.Recipient.Achternaam : app.RecipientId.ToString())</td>
+                    <td>@app.DateOfApplication?.ToString("dd-MM-yyyy")</td>
+                    <td>@app.DateOfIssue?.ToString("dd-MM-yyyy")</td>
+                    <td>@(app.IsAccepted == true ? "Ja" : "Nee")</td>
+                    <td>@(app.Reason != null ? app.Reason.Name : app.ReasonId.ToString())</td>
                     <td>
                         @(row.IsAccepted ? "Goedgekeurd" : "Afgewezen")
                     </td>

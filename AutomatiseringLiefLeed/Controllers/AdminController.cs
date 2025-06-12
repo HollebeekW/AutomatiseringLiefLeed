@@ -3,6 +3,7 @@ using AutomatiseringLiefLeed.Models;
 using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace AutomatiseringLiefLeed.Controllers
@@ -26,10 +27,6 @@ namespace AutomatiseringLiefLeed.Controllers
         // ApplicationOverview view
         public async Task<IActionResult> ApplicationOverview(string status)
         {
-            var applications = await _context.Applications
-            .Include(a => a.Reason)
-            .OrderByDescending(a => a.DateOfApplication)
-            .ToListAsync();
 
             if (status == "goedgekeurd")
             {
@@ -40,10 +37,24 @@ namespace AutomatiseringLiefLeed.Controllers
                 applications = applications.Where(a => !a.IsAccepted).ToList();
             }
 
+            var applications = _context.Applications
+                .Include(a => a.Reason)
+                .Include(a => a.Sender)
+                .Include(a => a.Recipient)
+                .AsQueryable();
 
+            //sorting
+            applications = sortOrder switch
+            {
+                "sender" => applications.OrderBy(a => a.Sender.Roepnaam),
+                "recipient" => applications.OrderBy(a => a.Recipient.Roepnaam),
+                "reason" => applications.OrderBy(a => a.Reason.Name),
+                "status" => applications.OrderByDescending(a => a.IsAccepted),
+                _ => applications.OrderByDescending(a => a.DateOfApplication)
+            };
 
-            //return View(requests);
-            return View(applications);
+            ViewBag.CurrentSort = sortOrder;
+            return View(await applications.ToListAsync());
         }
 
         // GET: /Admin/Details/5
@@ -73,7 +84,7 @@ namespace AutomatiseringLiefLeed.Controllers
             application.IsAccepted = true;
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ApplicationOverview));
         }
 
         // POST: /Admin/Reject/5
@@ -84,10 +95,13 @@ namespace AutomatiseringLiefLeed.Controllers
             var application = await _context.Applications.FindAsync(id);
             if (application == null) return NotFound();
 
-            application.IsAccepted = false;
+            //application.IsAccepted = false;
+
+            //instead, delete application
+            _context.Applications.Remove(application);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ApplicationOverview));
         }
 
         // POST: /Admin/AddNote

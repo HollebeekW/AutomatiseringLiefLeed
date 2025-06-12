@@ -16,33 +16,19 @@ namespace AutomatiseringLiefLeed.Data
         public DbSet<Reason> Reasons { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Request> Requests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
             base.OnModelCreating(builder);
 
-            //relationships between tables
-            builder.Entity<Request>()
-                .HasOne(r => r.Sender)
-                .WithMany()
-                .HasForeignKey(r => r.SenderId)
+            builder.Entity<Application>()
+                .HasOne(a => a.Sender)
+                .WithMany(e => e.Applications)
+                .HasForeignKey(a => a.SenderId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<Request>()
-                .HasOne(r => r.Recipient)
-                .WithMany()
-                .HasForeignKey(r => r.RecipientId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Request>()
-                .HasOne(r => r.Reason)
-                .WithMany()
-                .HasForeignKey(r => r.ReasonId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            //!!DONT TOUCH!! reason seeding, commenting out reasons that are unable to be used (like marriage)
+            //!!DONT TOUCH!! reason seeding, commenting out reasons that are unable to be used for now (like marriage)
             builder.Entity<Reason>().HasData(
                 //new Reason { Id = 1, Name = "geboorte", GiftAmount = 25, IsAnniversary = false },
                 new Reason { Id = 2, Name = "ziek", GiftAmount = 25, IsAnniversary = false },
