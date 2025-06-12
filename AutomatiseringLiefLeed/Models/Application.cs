@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using AutomatiseringLiefLeed.Models;
+using AutomatiseringLiefLeed.Services;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutomatiseringLiefLeed.Models
@@ -25,6 +27,8 @@ namespace AutomatiseringLiefLeed.Models
         [ForeignKey("ReasonId")]
         public virtual Reason? Reason { get; set; }
 
+        public virtual ICollection<Note> Notes { get; set; } = new List<Note>();
+        
         [Required]
         [DataType(DataType.Date)]
         public DateTime? DateOfIssue { get; set; }
@@ -32,7 +36,4 @@ namespace AutomatiseringLiefLeed.Models
         public DateTime? DateOfApplication { get; set; }
 
         public bool? IsAccepted { get; set; }
-
-        public virtual ICollection<Note>? Notes { get; set; } = new List<Note>();
     }
-}

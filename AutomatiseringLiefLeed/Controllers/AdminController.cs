@@ -25,10 +25,17 @@ namespace AutomatiseringLiefLeed.Controllers
         }
 
         // ApplicationOverview view
-        public async Task<IActionResult> ApplicationOverview(string sortOrder)
+        public async Task<IActionResult> ApplicationOverview(string status)
         {
 
-            ViewBag.currentSort = sortOrder;
+            if (status == "goedgekeurd")
+            {
+                applications = applications.Where(a => a.IsAccepted).ToList();
+            }
+            else if (status == "afgewezen")
+            {
+                applications = applications.Where(a => !a.IsAccepted).ToList();
+            }
 
             var applications = _context.Applications
                 .Include(a => a.Reason)
@@ -54,14 +61,14 @@ namespace AutomatiseringLiefLeed.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var application = await _context.Applications
-                .Include(a => a.Sender)
-                .Include(a => a.Recipient)
-                .Include(a => a.Reason)
-                .Include(a => a.Notes) // if you're also displaying notes
-                .FirstOrDefaultAsync(a => a.Id == id);
+            .Include(a => a.Reason)
+            .Include(a => a.Notes)
+            .FirstOrDefaultAsync(a => a.Id == id);
 
             if (application == null)
+            {
                 return NotFound();
+            }
 
             return View(application);
         }
@@ -105,7 +112,13 @@ namespace AutomatiseringLiefLeed.Controllers
             var application = await _context.Applications.FindAsync(id);
             if (application == null) return NotFound();
 
-           
+            if (string.IsNullOrWhiteSpace(note))
+            {
+                ModelState.AddModelError("note", "Opmerking mag niet leeg zijn.");
+                return RedirectToAction("Details", new { id });
+            }
+
+
             var newNote = new Note
             {
                 ApplicationId = application.Id,
@@ -119,5 +132,24 @@ namespace AutomatiseringLiefLeed.Controllers
 
             return RedirectToAction(nameof(Details), new { id });
         }
+
+
+        // POST: /Admin/FilterApproved
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FilterApproved()
+        {
+            var approvedApplications = await _context.Applications
+                .Include(a => a.Reason)
+                .Where(a => a.IsAccepted)
+                .OrderByDescending(a => a.DateOfApplication)
+                .ToListAsync();
+
+            return View("ApplicationOverview", approvedApplications);
+        }
+
+
+
     }
 }
+
