@@ -30,7 +30,9 @@ namespace AutomatiseringLiefLeed.AutomatiseringLiefLeed.Tests
                     Id = 1,
                     IsAccepted = false,
                     SenderId = 1,
-                    RecipientId = 2
+                    RecipientId = 2,
+                    DateOfIssue = DateTime.Now,
+                    ReasonId = 1
                 });
                 context.SaveChanges();
             }
