@@ -32,6 +32,9 @@ cd AutomatiseringLiefLeed
 - Automatische verwerking van betalingen via Mollie-integratie.
 - Bekijk overzichtelijke rapportages voor alle transacties en aanvragen.
 
+## 📋 Acceptatietesten
+* [AcceptatieTests.md](docs/test/AcceptatieTests.md)
+
 ## Contact
 
 Hans Pieters - [h.pieters@gemeentealmere.nl](mailto:h.pieters@gemeentealmere.nl)
