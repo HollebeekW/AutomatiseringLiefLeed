@@ -2,7 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5" style="max-width: 800px;">
+    <div class="text-center mb-5 pb-4 border-bottom">
+        <h1 class="display-5 fw-bold mb-3">Welkom bij het <span class="fw-normal">Lief &amp; Leed</span><br />Portaal</h1>
+        <p class="lead mb-4">
+            Hier kunt u eenvoudig een aanvraag doen voor een collega<br />
+            in een bijzondere situatie.
+        </p>
+        <a href="/AanvraagForm/Start" class="btn btn-outline-dark btn-lg px-5">Start aanvraag</a>
+    </div>
+
+    <div class="row text-start mb-5 pb-4 border-bottom">
+        <div class="col-md-4 mb-4 mb-md-0">
+            <h5 class="fw-bold">Welke aanvragen zijn er?</h5>
+            <ul>
+                <li>Jubileum</li>
+                <li>Ziekte</li>
+                <li>Huwelijk</li>
+                <li>Pensionering</li>
+            </ul>
+        </div>
+        <div class="col-md-4 mb-4 mb-md-0">
+            <h5 class="fw-bold">Hoe werkt het?</h5>
+            <ul>
+                <li>Aanvraag indienen</li>
+                <li>Automatische controle</li>
+                <li>Uitbetaling</li>
+            </ul>
+        </div>
+        <div class="col-md-4">
+            <h5 class="fw-bold">Veelgestelde vragen</h5>
+            <ul>
+                <li>Bekijk de FAQ</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="mb-5 pb-4 border-bottom">
+        <div class="d-flex justify-content-center gap-3">
+            <a href="/AanvraagForm/Start" class="btn btn-primary btn-lg">Nieuwe aanvraag</a>
+            <a href="/AanvraagForm/Overzicht" class="btn btn-secondary btn-lg">Mijn aanvragen</a>
+            <a href="/Home/FAQ" class="btn btn-outline-dark btn-lg">FAQ</a>
+        </div>
+    </div>
 </div>

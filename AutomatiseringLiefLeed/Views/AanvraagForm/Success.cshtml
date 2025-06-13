@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Aanvraag ingediend";
+    var aanvraagNummer = TempData["AanvraagNummer"] as string;
+    var aanvraagType = TempData["AanvraagType"] as string;
+    var ingediendOp = TempData["IngediendOp"] as DateTime? ?? DateTime.Now;
 }
 
 @if (TempData["SuccessMessage"] != null)
@@ -14,11 +17,11 @@
 <div class="container mt-5 text-center">
     <h2>Bedankt voor uw aanvraag!</h2>
     <p>
-        Aanvraagnummer: <strong>#LLP-2023-123</strong><br />
-        Type aanvraag: <strong>Jubileum / Ziekte / Huwelijk / etc.</strong><br />
-        Ingediend op: <strong>@DateTime.Now.ToString("dd-MM-yyyy HH:mm")</strong>
+        Aanvraagnummer: <strong>@(aanvraagNummer ?? "-")</strong><br />
+        Type aanvraag: <strong>@(aanvraagType ?? "-")</strong><br />
+        Ingediend op: <strong>@ingediendOp.ToString("dd-MM-yyyy HH:mm")</strong>
     </p>
 
-    <a href="/RequestForm/Status" class="btn btn-info">Bekijk aanvraagstatus</a>
+    <a href="/AanvraagForm/Overzicht" class="btn btn-info">Bekijk aanvraagstatus</a>
     <a href="/" class="btn btn-secondary ml-2">Terug naar Homepagina</a>
 </div>

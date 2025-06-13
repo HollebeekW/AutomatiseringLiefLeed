@@ -28,9 +28,10 @@
 <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>Datum uitgifte</th>
             <th>Aanvrager ID</th>
             <th>Ontvanger ID</th>
+            <th>Datum aanvraag</th>
+            <th>Datum uitgifte</th>
             <th>Reden</th>
             <th>Status</th>
             <th class="text-end">Bedrag</th>
@@ -43,16 +44,13 @@
             foreach (var row in Model)
             {
                 <tr>
-                    <td>@(app.Sender != null ? app.Sender.Roepnaam + " " + app.Sender.Achternaam : app.SenderId.ToString())</td>
-                    <td>@(app.Recipient != null ? app.Recipient.Roepnaam + " " + app.Recipient.Achternaam : app.RecipientId.ToString())</td>
-                    <td>@app.DateOfApplication?.ToString("dd-MM-yyyy")</td>
-                    <td>@app.DateOfIssue?.ToString("dd-MM-yyyy")</td>
-                    <td>@(app.IsAccepted == true ? "Ja" : "Nee")</td>
-                    <td>@(app.Reason != null ? app.Reason.Name : app.ReasonId.ToString())</td>
-                    <td>
-                        @(row.IsAccepted ? "Goedgekeurd" : "Afgewezen")
-                    </td>
-                    <td class="text-end">€@((decimal)(row.Reason?.GiftAmount ?? 0))</td>
+                    <td>@(row.Sender != null ? row.Sender.Roepnaam + " " + row.Sender.Achternaam : row.SenderId.ToString())</td>
+                    <td>@(row.Recipient != null ? row.Recipient.Roepnaam + " " + row.Recipient.Achternaam : row.RecipientId.ToString())</td>
+                    <td>@row.DateOfApplication?.ToString("dd-MM-yyyy")</td>
+                    <td>@row.DateOfIssue?.ToString("dd-MM-yyyy")</td>
+                    <td>@(row.Reason != null ? row.Reason.Name : row.ReasonId.ToString())</td>
+                    <td>@(row.IsAccepted == true ? "Goedgekeurd" : "Afgewezen")</td>
+                    <td class="text-end">@row.Reason?.GiftAmount?.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("nl-NL"))</td>
                     <td class="text-end">
                         <a asp-action="Details"
                            asp-route-id="@row.Id"
@@ -65,8 +63,9 @@
         }
         else
         {
-            <tr><td colspan="6" class="text-center">Geen aanvragen gevonden.</td></tr>
+            <tr><td colspan="8" class="text-center">Geen aanvragen gevonden.</td></tr>
         }
+    </tbody>
     </tbody>
     <tfoot>
         <tr>

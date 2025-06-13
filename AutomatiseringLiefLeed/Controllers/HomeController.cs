@@ -13,6 +13,11 @@ namespace AutomatiseringLiefLeed.Controllers
             _logger = logger;
         }
 
+        public IActionResult FAQ()
+        {
+            return View();
+        }
+
         public IActionResult Index()
         {
             return View();
