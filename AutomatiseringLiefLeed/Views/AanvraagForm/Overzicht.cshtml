@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AutomatiseringLiefLeed.Models.Application>
+
+@{
+    ViewData["Title"] = "Aanvraag Overzicht";
+}
+
+<h1>Aanvraag Overzicht</h1>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Reden</th>
+                <th>Ontvanger</th>
+                <th>Datum</th>
+                <th>Status</th>
+                <th>Acties</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var aanvraag in Model)
+            {
+                <tr>
+                    <td>@aanvraag.Id</td>
+                    <td>@aanvraag.Reason?.Name</td>
+                    <td>@($"{aanvraag.Recipient?.Roepnaam} {aanvraag.Recipient?.Achternaam}")</td>
+                    <td>@aanvraag.DateOfApplication?.ToString("dd-MM-yyyy")</td>
+                    <td>@(aanvraag.IsAccepted == true ? "Goedgekeurd" : "In behandeling")</td>
+                    <td>
+                        N.V.T
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Er zijn geen aanvragen gevonden.</p>
+}

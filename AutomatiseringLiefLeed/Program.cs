@@ -1,4 +1,5 @@
 using AutomatiseringLiefLeed.Data;
+using AutomatiseringLiefLeed.Data.SeedData;
 using AutomatiseringLiefLeed.Models;
 using AutomatiseringLiefLeed.Services;
 using LiefLeedAutomatisering.Services;
@@ -40,6 +41,14 @@ namespace AutomatiseringLiefLeed
             builder.Services.AddScoped<EmployeeImportService>();
 
             var app = builder.Build();
+
+            // Normale gebruiker (voor test redenen).
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                await SeedData.SeedUsersAsync(services);
+            }
+
 
             //employee seeding from XML
             using (var scope = app.Services.CreateScope())

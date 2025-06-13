@@ -9,12 +9,19 @@
 <table class="table">
     <tr><th>Id</th><td>@Model.Id</td></tr>
     <tr><th>Aanvrager Id</th><td>@Model.SenderId</td></tr>
-    @* <tr><th>Aanvrager Naam</th><td>@Model.SenderName</td></tr> *@
     <tr><th>Ontvanger Id</th><td>@Model.RecipientId</td></tr>
-    @* <tr><th>Ontvanger Naam</th><td>@Model.RecipientName</td></tr> *@
-    <tr><th>Datum aanvraag</th><td>@Model.DateOfApplication.ToShortDateString()</td></tr>
-    <tr><th>Datum uitgifte</th><td>@Model.DateOfIssue.ToShortDateString()</td></tr>
-    <tr><th>Geaccepteerd</th><td>@(Model.IsAccepted ? "Ja" : "Nee")</td></tr>
+    <tr>
+        <th>Datum aanvraag</th>
+        <td>@(Model.DateOfApplication.HasValue ? Model.DateOfApplication.Value.ToShortDateString() : "Onbekend")</td>
+    </tr>
+    <tr>
+        <th>Datum uitgifte</th>
+        <td>@(Model.DateOfIssue.HasValue ? Model.DateOfIssue.Value.ToShortDateString() : "Onbekend")</td>
+    </tr>
+    <tr>
+        <th>Geaccepteerd</th>
+        <td>@(Model.IsAccepted.HasValue ? (Model.IsAccepted.Value ? "Ja" : "Nee") : "Onbekend")</td>
+    </tr>
     <tr><th>Bedrag</th><td>@(Model.Reason?.GiftAmount != null ? $"€{Model.Reason.GiftAmount:0.00}" : "")</td></tr>
     <tr><th>Reden</th><td>@(Model.Reason != null ? Model.Reason.Name : Model.ReasonId.ToString())</td></tr>
     <tr><th>Opmerking</th><td>@(Model.Notes != null && Model.Notes.Any() ? Model.Notes.Last().Text : "Geen opmerking toegevoegd")</td></tr>

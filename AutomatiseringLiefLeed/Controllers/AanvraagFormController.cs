@@ -7,10 +7,8 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using Microsoft.EntityFrameworkCore;
 
-    /// <summary>
-    /// Defines the <see cref="AanvraagFormController" />
-    /// </summary>
     public class AanvraagFormController : Controller
     {
 
@@ -18,11 +16,6 @@
 
         private readonly AFASService _afasService;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AanvraagFormController"/> class.
-        /// </summary>
-        /// <param name="context">The context<see cref="ApplicationDbContext"/></param>
-        /// <param name="afasService">The afasService<see cref="AFASService"/></param>
 
         //Populate dropdown lists in form, from database
         private void PopulateDropdownLists()
@@ -172,6 +165,13 @@
             await _context.SaveChangesAsync();
 
             //redirect to next view, along with success message
+            // Zet TempData voor Success view
+            TempData["AanvraagNummer"] = model.Id.ToString();
+            TempData["AanvraagType"] = model.ReasonId.HasValue
+                ? (_context.Reasons.Find(model.ReasonId.Value)?.Name ?? "-")
+                : "-";
+            TempData["IngediendOp"] = model.DateOfApplication ?? DateTime.Now;
+
             TempData["SuccessMessage"] = "Aanvraag succesvol ingediend!";
             return RedirectToAction("Success");
         }
@@ -204,6 +204,45 @@
         public IActionResult Start()
         {
             return View();
+        }
+
+        // ingelogde user aanvragen tonen (geen admin)
+        [Authorize]
+        public async Task<IActionResult> Overzicht()
+        {
+            // Haal alle aanvragen op met Reason en Recipient
+            IQueryable<Application> aanvragen = _context.Applications
+                .Include(a => a.Reason)
+                .Include(a => a.Recipient);
+
+            // Check of gebruiker admin is
+            var isAdmin = User.IsInRole("Admin");
+
+            if (!isAdmin)
+            {
+                var userEmail = User.Identity?.Name;
+                if (string.IsNullOrWhiteSpace(userEmail))
+                {
+                    // Gebruiker is niet ingelogd of heeft geen e-mail
+                    return Unauthorized();
+                }
+
+                // Zoek de Employee case-insensitive op e-mail
+                var employee = await _context.Employees
+                    .FirstOrDefaultAsync(e => e.EmailWerk != null && e.EmailWerk.ToLower() == userEmail.ToLower());
+
+                if (employee == null)
+                {
+                    // Geen Employee gevonden voor deze gebruiker
+                    return Unauthorized();
+                }
+
+                // Filter aanvragen op eigen aanvragen
+                aanvragen = aanvragen.Where(a => a.SenderId == employee.Id);
+            }
+
+            var result = await aanvragen.ToListAsync();
+            return View(result);
         }
     }
 }

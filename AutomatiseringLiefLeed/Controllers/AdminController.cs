@@ -25,35 +25,39 @@ namespace AutomatiseringLiefLeed.Controllers
         }
 
         // ApplicationOverview view
-        public async Task<IActionResult> ApplicationOverview(string status)
+        public async Task<IActionResult> ApplicationOverview(string sortOrder, string status)
         {
-
-            if (status == "goedgekeurd")
-            {
-                applications = applications.Where(a => a.IsAccepted).ToList();
-            }
-            else if (status == "afgewezen")
-            {
-                applications = applications.Where(a => !a.IsAccepted).ToList();
-            }
-
             var applications = _context.Applications
                 .Include(a => a.Reason)
                 .Include(a => a.Sender)
                 .Include(a => a.Recipient)
                 .AsQueryable();
 
-            //sorting
+            // Filter by status if provided
+            if (!string.IsNullOrEmpty(status))
+            {
+                if (status == "goedgekeurd")
+                {
+                    applications = applications.Where(a => a.IsAccepted == true);
+                }
+                else if (status == "afgewezen")
+                {
+                    applications = applications.Where(a => a.IsAccepted == false);
+                }
+            }
+
+            // Sorting
             applications = sortOrder switch
             {
-                "sender" => applications.OrderBy(a => a.Sender.Roepnaam),
-                "recipient" => applications.OrderBy(a => a.Recipient.Roepnaam),
-                "reason" => applications.OrderBy(a => a.Reason.Name),
+                "sender" => applications.OrderBy(a => a.Sender != null ? a.Sender.Roepnaam : ""),
+                "recipient" => applications.OrderBy(a => a.Recipient != null ? a.Recipient.Roepnaam : ""),
+                "reason" => applications.OrderBy(a => a.Reason != null ? a.Reason.Name : ""),
                 "status" => applications.OrderByDescending(a => a.IsAccepted),
                 _ => applications.OrderByDescending(a => a.DateOfApplication)
             };
 
             ViewBag.CurrentSort = sortOrder;
+            ViewBag.CurrentStatus = status;
             return View(await applications.ToListAsync());
         }
 
@@ -134,14 +138,13 @@ namespace AutomatiseringLiefLeed.Controllers
         }
 
 
-        // POST: /Admin/FilterApproved
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> FilterApproved()
         {
             var approvedApplications = await _context.Applications
                 .Include(a => a.Reason)
-                .Where(a => a.IsAccepted)
+                .Where(a => a.IsAccepted.HasValue && a.IsAccepted.Value)
                 .OrderByDescending(a => a.DateOfApplication)
                 .ToListAsync();
 
