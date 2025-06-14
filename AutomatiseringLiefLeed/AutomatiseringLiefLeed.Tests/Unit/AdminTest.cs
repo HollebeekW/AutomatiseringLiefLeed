@@ -7,7 +7,7 @@ using AutomatiseringLiefLeed.Models;
 using AutomatiseringLiefLeed.Data;
 using System.Threading.Tasks;
 
-namespace AutomatiseringLiefLeed.AutomatiseringLiefLeed.Tests
+namespace AutomatiseringLiefLeed.AutomatiseringLiefLeed.Tests.Unit
 {
     public class AdminTest
     {

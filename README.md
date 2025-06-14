@@ -1,3 +1,6 @@
+[![Build](https://github.com/<user>/<repo>/actions/workflows/dotnet.yml/badge.svg)](https://github.com/<user>/<repo>/actions/workflows/dotnet.yml)
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/<GIST_ID>/raw/badge.json)](#)
+
 # Automatisering Lief & Leed Pot
 
 Deze ASP.NET MVC applicatie automatiseert het aanvraagproces, controle en uitbetaling van de "Lief & Leed Pot" binnen gemeente Almere. De applicatie vermindert administratieve lasten en verhoogt de efficiëntie voor zowel medewerkers als de administratie.
@@ -32,8 +35,22 @@ cd AutomatiseringLiefLeed
 - Automatische verwerking van betalingen via Mollie-integratie.
 - Bekijk overzichtelijke rapportages voor alle transacties en aanvragen.
 
+### Deployment & monitoring
+
+De Web App wordt na elke geslaagde **build-test** pipeline automatisch
+uitgerold naar Azure Web Apps via GitHub Actions (zie workflow `deploy-prod`).
+
+* **Auto-scale** is ingesteld op 1→3 instanties bij CPU > 70 %.
+* **Application Insights** verzamelt request-latency (p95), error-rate en
+  custom metric *HR-overview latency* (≤ 300 ms – NF-01).
+* Alerts: p95 > 500 ms of error > 2 % ⟶ Teams-kanaal *#liefleed-alerts*.
+
+## 📋 Acceptatietesten
+* [AcceptatieTests.md](docs/test/AcceptatieTests.md)
+
 ## Contact
 
 Hans Pieters - [h.pieters@gemeentealmere.nl](mailto:h.pieters@gemeentealmere.nl)
 
-Projectlink: [https://github.com/jouw-gebruikersnaam/lief-leed-automatisering](https://github.com/jouw-gebruikersnaam/lief-leed-automatisering)
+
+

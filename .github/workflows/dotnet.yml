@@ -1,4 +1,4 @@
-name: Build and Test .NET App
+name: Build, Test & Coverage
 
 on:
   push:
@@ -6,24 +6,45 @@ on:
   pull_request:
     branches: [ master ]
 
+defaults:
+  run:
+    shell: pwsh
+
 jobs:
-  build:
+  build-test:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setup .NET SDK
+    - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore packages
+    - name: Restore
       run: dotnet restore
 
-    - name: Build solution
-      run: dotnet build --no-restore
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
 
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal
+    # ---------- 🆕 TEST + COVERAGE ----------
+    - name: Test with coverage
+      run: >
+        dotnet test --no-build --configuration Release
+        --logger "trx;LogFileName=testresults.trx"
+        --collect:"XPlat Code Coverage"
+
+    # ---------- 🆕 ARTEFACTS ----------
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: '**/*.trx'
+
+    - name: Upload coverage (Cobertura)
+      uses: actions/upload-artifact@v3
+      with:
+        name: code-coverage
+        path: '**/coverage.cobertura.xml'
