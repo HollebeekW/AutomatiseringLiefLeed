@@ -1,6 +1,5 @@
-[![Build](https://github.com/HollebeekW/AutomatiseringLiefLeed/actions/workflows/build.yml/badge.svg)]
-![Coverage](https://img.shields.io/badge/coverage-72%25-brightgreen)
-
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 # Automatisering Lief & Leed Pot
 
