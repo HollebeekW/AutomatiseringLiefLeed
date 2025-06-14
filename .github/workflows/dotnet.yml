@@ -1,64 +1,29 @@
-name: Build, Test & Coverage
+name: Build and Test .NET App
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
-
-defaults:
-  run:
-    shell: pwsh
+    branches: [ main ]
 
 jobs:
-  build-test:
+  build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Setup .NET
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore
+    - name: Restore packages
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore --configuration Release
+    - name: Build solution
+      run: dotnet build --no-restore
 
-    # ---------- 🆕 TEST + COVERAGE ----------
-    - name: Test with coverage
-      run: >
-        dotnet test --no-build --configuration Release
-        --logger "trx;LogFileName=testresults.trx"
-        --collect:"XPlat Code Coverage"
-
-    # ---------- 🆕 ARTEFACTS ----------
-    - name: Upload test results
-      uses: actions/upload-artifact@v4 
-      with:
-        name: test-results
-        path: '**/*.trx'
-
-    - name: Upload coverage (Cobertura)
-      uses: actions/upload-artifact@v3
-      with:
-        name: code-coverage
-        path: '**/coverage.cobertura.xml'
-
-    - name: Update coverage badge (shields.io gist)
-      if: github.ref == 'refs/heads/master'
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        $file = Get-ChildItem -Recurse -Filter coverage.cobertura.xml | Select-Object -First 1
-        [xml]$cob = Get-Content $file.FullName
-        $rate = [double]($cob.coverage.@'line-rate')
-        $percent = [math]::Round($rate * 100)
-        $color = if ($percent -ge 80) { 'brightgreen' } elseif ($percent -ge 60) { 'yellow' } else { 'red' }
-        $json = @{ schemaVersion = 1; label = 'coverage'; message = \"$percent%\"; color = $color } | ConvertTo-Json
-        Set-Content -Path badge.json -Value $json
-        gh gist edit **789f6f0d224cdca20d69ff9e68e30652** -a badge.json
+    - name: Run tests
+      run: dotnet test --no-build --verbosity normal
