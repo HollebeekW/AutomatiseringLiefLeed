@@ -38,7 +38,7 @@ jobs:
 
     # ---------- 🆕 ARTEFACTS ----------
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4 
       with:
         name: test-results
         path: '**/*.trx'
@@ -48,7 +48,7 @@ jobs:
       with:
         name: code-coverage
         path: '**/coverage.cobertura.xml'
-        
+
     - name: Update coverage badge (shields.io gist)
       if: github.ref == 'refs/heads/master'
       env:
