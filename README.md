@@ -1,5 +1,5 @@
 [![Build](https://github.com/HollebeekW/AutomatiseringLiefLeed/actions/workflows/build.yml/badge.svg)]
-[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Erkan21211/789f6f0d224cdca20d69ff9e68e30652/raw/badge.json)](https://github.com/HollebeekW/AutomatiseringLiefLeed/actions/workflows/build.yml)
+![Coverage](https://img.shields.io/badge/coverage-72%25-brightgreen)
 
 
 # Automatisering Lief & Leed Pot
