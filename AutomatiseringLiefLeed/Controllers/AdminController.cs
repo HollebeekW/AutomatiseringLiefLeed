@@ -28,6 +28,7 @@ namespace AutomatiseringLiefLeed.Controllers
         public async Task<IActionResult> ApplicationOverview(string sortOrder, string status)
         {
             var applications = _context.Applications
+                .AsNoTracking()
                 .Include(a => a.Reason)
                 .Include(a => a.Sender)
                 .Include(a => a.Recipient)
@@ -138,8 +139,10 @@ namespace AutomatiseringLiefLeed.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
+
+        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> FilterApproved()
         {
             var approvedApplications = await _context.Applications

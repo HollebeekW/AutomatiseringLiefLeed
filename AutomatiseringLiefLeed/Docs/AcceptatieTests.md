@@ -41,3 +41,12 @@
 | **Requirement** | F-02: “Gebruiker kan een aanvraag indienen.” |
 | **Voorwaarde (Given)** | Gebruiker is ingelogd en ziet formulier voor nieuwe aanvraag. |
 | **Actie (When)** | Gebruiker vult formulier in en klikt op **Indienen**. |
+
+## AT-05 - HR-overzicht levert ≤ 300 ms bij 50 aanvragen
+| Item | Inhoud |
+|------|--------|
+| **Requirement** | F-03: “HR kan een overzicht van aanvragen bekijken.” |
+| **Voorwaarde (Given)** | HR-gebruiker is ingelogd en heeft 50 aanvragen in de database. |
+| **Actie (When)** | HR klikt op **Overzicht aanvragen**. |
+| **Verwacht resultaat (Then)** | - Overzicht wordt geladen binnen 300 ms <br>- Alle 50 aanvragen zichtbaar |
+| **Randgevallen** | Serverfout → foutmelding, geen aanvragen getoond. |
