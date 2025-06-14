@@ -48,3 +48,17 @@ jobs:
       with:
         name: code-coverage
         path: '**/coverage.cobertura.xml'
+        
+    - name: Update coverage badge (shields.io gist)
+      if: github.ref == 'refs/heads/master'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        $file = Get-ChildItem -Recurse -Filter coverage.cobertura.xml | Select-Object -First 1
+        [xml]$cob = Get-Content $file.FullName
+        $rate = [double]($cob.coverage.@'line-rate')
+        $percent = [math]::Round($rate * 100)
+        $color = if ($percent -ge 80) { 'brightgreen' } elseif ($percent -ge 60) { 'yellow' } else { 'red' }
+        $json = @{ schemaVersion = 1; label = 'coverage'; message = \"$percent%\"; color = $color } | ConvertTo-Json
+        Set-Content -Path badge.json -Value $json
+        gh gist edit **789f6f0d224cdca20d69ff9e68e30652** -a badge.json

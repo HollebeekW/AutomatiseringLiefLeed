@@ -1,5 +1,6 @@
-[![Build](https://github.com/<user>/<repo>/actions/workflows/dotnet.yml/badge.svg)](https://github.com/<user>/<repo>/actions/workflows/dotnet.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/<GIST_ID>/raw/badge.json)](#)
+[![Build](https://github.com/HollebeekW/AutomatiseringLiefLeed/actions/workflows/build.yml/badge.svg)]
+[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Erkan21211/789f6f0d224cdca20d69ff9e68e30652/raw/badge.json)](https://github.com/HollebeekW/AutomatiseringLiefLeed/actions/workflows/build.yml)
+
 
 # Automatisering Lief & Leed Pot
 
