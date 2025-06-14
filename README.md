@@ -1,5 +1,5 @@
-[![Build](https://github.com/<user>/<repo>/actions/workflows/dotnet.yml/badge.svg)](https://github.com/<user>/<repo>/actions/workflows/dotnet.yml)
-[![Coverage](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/<GIST_ID>/raw/badge.json)](#)
+[![Build](https://docs.github.com/assets/cb-16218/mw-1440/images/help/repository/actions-workflow-status-badge.webp)
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 # Automatisering Lief & Leed Pot
 
