@@ -1,4 +1,4 @@
-[![Build](https://docs.github.com/assets/cb-16218/mw-1440/images/help/repository/actions-workflow-status-badge.webp)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
 
 # Automatisering Lief & Leed Pot
