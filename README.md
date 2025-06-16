@@ -28,6 +28,10 @@ cd AutomatiseringLiefLeed
 4. Bouw de oplossing (Ctrl+Shift+B).
 5. Start het project door op F5 te drukken.
 
+## Meegeleverd Account
+
+Er wordt een standaard admin-account meegeleverd. Het e-mailadres en wachtwoord zijn hiervoor espectievelijk `admin@almere.nl` en `Admin123!`.
+
 ## Mogelijkheden
 
 - Dien aanvragen eenvoudig digitaal in via het aanvraagportaal.
