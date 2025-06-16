@@ -41,6 +41,10 @@ Er wordt een standaard admin-account meegeleverd. Het e-mailadres en wachtwoord 
 <!-- - Automatische verwerking van betalingen via Mollie-integratie. -->
 <!-- - Bekijk overzichtelijke rapportages voor alle transacties en aanvragen. -->
 
+## Email test systeem
+
+Op de branch `email-integration` is een emailsysteem geïmplementeerd. In de readme op die branch staat uitgelegd hoe deze opgezet dient te worden.
+
 ### Deployment & monitoring
 
 De Web App wordt na elke geslaagde **build-test** pipeline automatisch
