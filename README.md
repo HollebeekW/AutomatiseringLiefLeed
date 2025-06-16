@@ -56,7 +56,7 @@ uitgerold naar Azure Web Apps via GitHub Actions (zie workflow `deploy-prod`).
 * Alerts: p95 > 500 ms of error > 2 % ⟶ Teams-kanaal *#liefleed-alerts*.
 
 ## 📋 Acceptatietesten
-* [AcceptatieTests.md](docs/test/AcceptatieTests.md)
+* [AcceptatieTests.md](https://github.com/HollebeekW/AutomatiseringLiefLeed/blob/master/AutomatiseringLiefLeed/Docs/AcceptatieTests.md)
 
 ## Contact
 
