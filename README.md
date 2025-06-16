@@ -3,7 +3,7 @@
 
 # Automatisering Lief & Leed Pot
 
-Deze ASP.NET MVC applicatie automatiseert het aanvraagproces, controle en uitbetaling van de "Lief & Leed Pot" binnen gemeente Almere. De applicatie vermindert administratieve lasten en verhoogt de efficiëntie voor zowel medewerkers als de administratie.
+Deze ASP.NET MVC applicatie automatiseert het aanvraagproces, controle en uitbetaling van de "Lief & Leed Pot" binnen de gemeente Almere. De applicatie vermindert administratieve lasten en verhoogt de efficiëntie voor zowel medewerkers als de administratie.
 
 ## Vereisten
 
@@ -28,12 +28,14 @@ cd AutomatiseringLiefLeed
 4. Bouw de oplossing (Ctrl+Shift+B).
 5. Start het project door op F5 te drukken.
 
-## Gebruik
+## Mogelijkheden
 
 - Dien aanvragen eenvoudig digitaal in via het aanvraagportaal.
-- Beheer jubilea en ziektegevallen via een duidelijk controle-dashboard.
-- Automatische verwerking van betalingen via Mollie-integratie.
-- Bekijk overzichtelijke rapportages voor alle transacties en aanvragen.
+- Beheer de afgifte's van jubilea en ziektes via een dashboard.
+- Aanvragen m.b.t. jubilea worden automatisch gecontroleerd.
+- Aanvragen m.b.t. ziektes en overlijden worden beoordeeld via het adminportaal.
+<!-- - Automatische verwerking van betalingen via Mollie-integratie. -->
+<!-- - Bekijk overzichtelijke rapportages voor alle transacties en aanvragen. -->
 
 ### Deployment & monitoring
 
